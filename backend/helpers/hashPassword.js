@@ -36,45 +36,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var connection_1 = require("../db/connection");
-var jwt = require("jsonwebtoken");
+var connection_1 = require("../db/connection"); // asegúrate de importar pool también
 var bcrypt = require("bcrypt");
-var express_1 = require("express");
-var router = (0, express_1.Router)();
-//API para iniciar sesion en la aplicacion
-router.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, query, rows, user, isMatch, token, error_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 3, , 4]);
-                _a = req.body, email = _a.email, password = _a.password;
-                query = 'SELECT id_user, email, pass FROM users WHERE email = ? ';
-                return [4 /*yield*/, connection_1.default.query(query, [email])];
-            case 1:
-                rows = (_b.sent())[0];
-                if (rows.length === 0) {
-                    return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
-                }
-                user = rows[0];
-                return [4 /*yield*/, bcrypt.compare(password, user.pass)];
-            case 2:
-                isMatch = _b.sent();
-                if (!isMatch) {
-                    return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
-                }
-                token = jwt.sign({ id: user.id_user, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-                return [2 /*return*/, res.status(200).json({
-                        message: 'Logged In Successfully',
-                        token: token
-                    })];
-            case 3:
-                error_1 = _b.sent();
-                console.error(error_1);
-                console.log('Something went wrong, please try again.');
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
+// Funcion para hashear la contraseña en la DB
+function hashPassword(email, plainPassword) {
+    return __awaiter(this, void 0, void 0, function () {
+        var saltRounds, hashedPassword, query, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    saltRounds = 5;
+                    return [4 /*yield*/, bcrypt.hash(plainPassword, saltRounds)];
+                case 1:
+                    hashedPassword = _a.sent();
+                    query = 'UPDATE users SET pass = ? WHERE email = ?';
+                    return [4 /*yield*/, connection_1.default.query(query, [hashedPassword, email])];
+                case 2:
+                    _a.sent();
+                    console.log("Password for ".concat(email, " updated successfully."));
+                    process.exit(0);
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.error('Error updating password:', error_1);
+                    process.exit(1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
     });
-}); });
-exports.default = router;
+}
+var emailToUpdate = 'admin@kratt.com';
+var newPlainPassword = 'admin2025';
+hashPassword(emailToUpdate, newPlainPassword);

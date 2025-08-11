@@ -1,6 +1,6 @@
 import pool from '../db/connection'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import * as jwt from 'jsonwebtoken'
+import * as bcrypt from 'bcrypt';
 import { RowDataPacket } from "mysql2/promise";
 import { Router } from 'express'
 
@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
         const {email, password} = req.body 
 
         //Busca el usuario por email y contraseña
-        const query = 'SELECT email, pass FROM users WHERE email = ? '
+        const query = 'SELECT id_user, email, pass FROM users WHERE email = ? '
         const [rows] = await pool.query<RowDataPacket[]>(query, [email])
         if(rows.length === 0){
             return res.status(401).json({ message: 'Invalid email or password' });
@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
 
         //Generar token JWT valido por 1 hora
         const token = jwt.sign(
-            {id: user.id, email: user.email},
+            {id: user.id_user, email: user.email},
             process.env.JWT_SECRET,
             {expiresIn: '1h'}
         )
@@ -43,5 +43,7 @@ router.post('/login', async (req, res) => {
         console.log('Something went wrong, please try again.')
     }
 })
+
+
 
 export default router

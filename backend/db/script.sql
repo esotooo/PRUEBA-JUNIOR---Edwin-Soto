@@ -1,7 +1,7 @@
 CREATE TABLE users(
 	id_user INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
     email VARCHAR(80) NOT NULL, 
-    pass VARCHAR(50) NOT NULL
+    pass VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE suppliers(
