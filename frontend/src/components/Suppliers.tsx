@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import type { suppliers } from "../types/types"
 import axios from 'axios'
+import {LeadingActions, SwipeableList, SwipeAction, SwipeableListItem, TrailingActions} from 'react-swipeable-list'
+import 'react-swipeable-list/dist/styles.css'
 
 export default function Suppliers() {
     
@@ -27,11 +29,33 @@ export default function Suppliers() {
         }
     }, [admin])
 
+    const leadingActions = () => (
+        <LeadingActions >
+            <SwipeAction>
+                Actualizar
+            </SwipeAction>
+        </LeadingActions>
+    )
+
+    const trailingActions = () => (
+        <TrailingActions >
+            <SwipeAction >
+                Eliminar
+            </SwipeAction>
+        </TrailingActions>
+    )
+
   return (
-    <div>
-      {suppliers.map(supplier => (
-        <h1>{supplier.company_name}</h1>
-      ))}
-    </div>
+    <SwipeableList>
+        <SwipeableListItem
+            maxSwipe={1}
+            leadingActions={leadingActions()}
+            trailingActions={trailingActions()}    
+        >
+            <div>
+                
+            </div>
+        </SwipeableListItem>
+    </SwipeableList>
   )
 }

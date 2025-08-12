@@ -9,3 +9,8 @@ export type suppliers = {
     city: string
     created_at: string
 }
+
+export type supplierType = {
+    id_type: number
+    supplier_type: string
+}

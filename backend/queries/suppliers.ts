@@ -1,10 +1,13 @@
 import pool from '../db/connection'
-import {  RowDataPacket } from "mysql2/promise";
+import {  ResultSetHeader, RowDataPacket } from "mysql2/promise"
 import { Router } from 'express'
-import verifyToken from '../middlewares/verifyToken';
+import verifyToken from '../middlewares/verifyToken'
 
 const router = Router()
 
+//API's PROVEEDORES
+
+//Visualizacion de proveedores con datos especificos para visualizacion general
 router.post('/suppliers', verifyToken,  async(req, res) => {
     try{
         const query = 'SELECT s.id_supplier, s.company_name, s.contact_person, s.email, s.phone, ' +
@@ -20,8 +23,95 @@ router.post('/suppliers', verifyToken,  async(req, res) => {
     }
     catch(error){
         console.error(error)
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Server error' })
     }
 })
+
+//Agregar proveedores a la base de datos
+router.post('/add-supplier', verifyToken, async(req, res) => {
+    try{
+        const {company_name, contact_person, email,  id_type, NIT, phone, city, created_at} = req.body
+
+        const query = 'INSERT INTO suppliers(company_name, contact_person, email, id_type, NIT, phone, city, created_at) '+
+        'VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+        const [supplier] = await pool.query<ResultSetHeader>(query, [
+            company_name, contact_person, email, id_type, NIT, phone, city, created_at
+        ])
+
+        if(supplier.affectedRows > 0){
+            const newSupplier = {
+                id_supplier: supplier.insertId,
+                company_name: company_name,
+                contact_person: contact_person,
+                email: email,
+                id_type: id_type,
+                NIT: NIT,
+                phone: phone,
+                city: city,
+                created_at: created_at
+            }
+            res.status(200).json(newSupplier)
+        }else{
+            res.status(401).json({message: 'No records were found.'})
+        }
+    }catch(error){
+        console.error(error)
+        res.status(500).json({ message: 'Server error' })
+    }
+})
+
+//Actualizar proveedor tomando su ID
+router.put('/edit-supplier/:id', verifyToken, async (req, res) => {
+    try{
+        const{id} = req.params
+        const {company_name, contact_person, email, id_type, NIT, phone, city} = req.body
+
+        const query = 'UPDATE suppliers '+
+        'SET company_name = ?, contact_person = ?, email = ?, id_type = ?, NIT = ?, phone = ?, city = ? '+
+        'WHERE id_supplier = ?'
+
+        const [supplier] = await pool.query<ResultSetHeader>(query, [
+            company_name, 
+            contact_person, 
+            email, 
+            id_type, 
+            NIT, 
+            phone, 
+            city,
+            id
+        ])
+
+        if(supplier.affectedRows > 0){
+            res.status(200).json({message: 'Supplier updated successfully'})
+        }else{
+            res.status(404).json({message: 'Supplier not found'})
+        }
+    }catch(error){
+        console.error(error)
+        res.status(500).json({message: 'Server error'})
+    }
+})
+
+//Eliminar proveedor tomando su id
+router.delete('/delete-supplier/:id', verifyToken, async(req, res) => {
+    try{
+        const {id} = req.params
+
+        const query = 'DELETE FROM suppliers WHERE id_supplier = ?'
+
+        const [supplier] = await pool.query<ResultSetHeader>(query, [id])
+
+        if(supplier.affectedRows > 0){
+            res.status(200).json({ message: 'Supplier deleted successfully' })
+        }else{
+            res.status(404).json({ message: 'Supplier not found' })
+        }
+    }catch(error){
+        console.error(error)
+        res.status(500).json({ message: 'Server error' })
+    }
+})
+
+
 
 export default router
