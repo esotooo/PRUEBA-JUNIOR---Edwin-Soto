@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { FaEye } from "react-icons/fa"
 import { FaEyeSlash } from "react-icons/fa"
 import axios from 'axios'
-import { useAuth } from "../context/AuthContext"
+import { useAuth } from "../hooks/useAuth"
 
 export default function LoginPage() {
 

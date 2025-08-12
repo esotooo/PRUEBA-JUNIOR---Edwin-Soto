@@ -112,6 +112,63 @@ router.delete('/delete-supplier/:id', verifyToken, async(req, res) => {
     }
 })
 
+//Filtrar proveedores por nombre
+router.get('/suppliers/search-by-name', verifyToken, async(req, res) => {
+    try{
+        const {company_name} = req.query
 
+        if(!company_name){
+            return res.status(400).json({ message: 'Company name is required' })
+        }
+
+        const query = `
+        SELECT s.*, t.supplier_type 
+        FROM suppliers s
+        INNER JOIN suppliers_type t ON s.id_type = t.id_type
+        WHERE s.company_name LIKE ?
+        `
+
+        const [results] = await pool.query<RowDataPacket[]>(query, [`%${company_name}%`])
+
+        if(results.length > 0){
+            res.status(200).json(results)
+        }else{
+            res.status(404).json({ message: 'No records found.' })
+        }
+    }catch(error){
+        console.error(error)
+        res.status(500).json({ message: 'Server error' })
+    }
+})
+
+//Filtrar proveedores por tipo
+router.get('/suppliers/search-by-type', verifyToken, async (req, res) => {
+    try{
+        const {id_type} = req.query
+
+        if(!id_type){
+            return res.status(400).json({ message: 'Supplier type id is required' })
+        }
+
+        const query = `
+        SELECT s.*, t.supplier_type 
+        FROM suppliers s
+        INNER JOIN suppliers_type t ON s.id_type = t.id_type
+        WHERE s.id_type = ?
+        `
+
+        const [results] = await pool.query<RowDataPacket[]>(query, [id_type])
+
+        if(results.length > 0){
+            res.status(200).json(results)
+        }else{
+            res.status(404).json({ message: 'No records found.' })
+        }
+
+    }catch(error){
+        console.error(error)
+        res.status(500).json({ message: 'Server error' })
+    }
+})
 
 export default router

@@ -5,7 +5,7 @@
 .main__title {
     background-color: $yellow;
     display: flex;
-    padding: 2rem;
+    padding: 2rem 2rem 4rem 2rem;
 
     h1 {
       color: $blue;
@@ -31,8 +31,60 @@
         p{
             margin-left: .5rem;
             font-family: $subtitle;
+            font-weight: bold;
         }
     
     }
 }
+
+.main__content{
+  margin-top: -2rem;
+  background-color: $white;
+  border-radius: 2rem 2rem 0 0;
+  padding: 2rem;
+  h2{
+    font-family: $principal;
+    font-size: 2rem;
+    color: $blue;
+  }
+}
+
+.cards__options{
+  margin-top: 1.5rem;
+  text-decoration: none;
+  display: flex;
+}
   
+.card__option{
+  border: 1px solid $slate;
+  display: flex;
+  padding: 2rem;    
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 1rem;
+  box-shadow: .1rem .1rem .3rem $slate;
+  transition: transform ease-in-out .3s;
+
+  .card__icon{
+    font-size: 2rem;
+    color: $red;
+  }
+
+  .card__info{
+    h1{
+      color: $red;
+    }
+    p{
+      color: $blue;
+      font-family: $subtitle;
+      font-weight: bold;
+    }
+  }
+
+  &:hover{
+    transform: scale(1.03);
+  }
+}
+

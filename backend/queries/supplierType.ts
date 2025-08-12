@@ -24,4 +24,4 @@ router.post('/supplier-type', verifyToken, async(req, res) => {
 })
 
 
-//Buscar por tipo de proveedor
+export default router

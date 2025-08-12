@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as cors from 'cors'
 import loginRoutes from './queries/login'
 import suppliersRoutes from './queries/suppliers'
-
+import typeRoutes from './queries/supplierType'
 
 const PORT = 4000
 const app = express()
@@ -10,11 +10,14 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-//Usa router de login con prefijo '/api'
+//Usa router de inicio de sesión con prefijo '/api'
 app.use('/api', loginRoutes)
 
-//Usa router de login con prefijo '/api'
+//Usa router de proveedores con prefijo '/api'
 app.use('/api', suppliersRoutes)
+
+//Usa router de tipos de proveedores con prefijo '/api'
+app.use('/api', typeRoutes)
 
 
 app.listen(PORT, () => {

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useContext} from 'react'
+import { createContext, useEffect, useState} from 'react'
 import type { ReactNode } from 'react'
 
 export type Admin = {
@@ -10,19 +10,19 @@ type AuthContextProps = {
     setAdmin: (admin: Admin | null) => void
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined)
+export const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider = ({children} : {children: ReactNode}) => {
     const [admin, setAdmin] = useState<Admin | null>(() => {
-        const saved = localStorage.getItem("Admin")
+        const saved = localStorage.getItem("admin")
         return saved?JSON.parse(saved) : null
     })
 
     useEffect(() => {
         if(admin){
-            localStorage.setItem("Admin", JSON.stringify(admin))
+            localStorage.setItem("admin", JSON.stringify(admin))
         }else{
-            localStorage.removeItem("Admin")
+            localStorage.removeItem("admin")
         }
     }, [admin])
 
@@ -33,8 +33,3 @@ export const AuthProvider = ({children} : {children: ReactNode}) => {
     )
 }
 
-export const useAuth = () => {
-    const context = useContext(AuthContext)
-    if (!context) throw new Error("useAuth debe usarse dentro de AuthProvider")
-    return context
-}
