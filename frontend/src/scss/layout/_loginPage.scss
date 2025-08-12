@@ -1,14 +1,14 @@
 @use '../global/variables' as *;
 @use '../global/mixins' as *;
-
+@use 'sass:color';
 
 /* Título del login */
 .login__title {
   margin: 0;
-  background-color: $red;
+  background-color: $yellow;
   padding-top: 1.5rem;
   padding-bottom: 5rem;
-  color: $white;
+  color: $blue;
   font-size: 2rem;
   text-align: center;
 
@@ -167,7 +167,7 @@
   position: static;
 
   &:hover{
-    background-color: lighten($blue, 5%);
+    background-color: color.adjust($blue, $lightness: 5%);
   }
 
   @include tablet {

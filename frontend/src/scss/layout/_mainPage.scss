@@ -1,13 +1,14 @@
 @use '../global/variables' as *;
 @use '../global/mixins' as *;
+@use 'sass:color';
 
 .main__title {
-    background-color: $red;
+    background-color: $yellow;
     display: flex;
     padding: 2rem;
 
     h1 {
-      color: $white;
+      color: $blue;
       font-size: 3rem;
     }
   
@@ -24,7 +25,7 @@
       padding: 1rem;
 
         &:hover{
-            background-color: lighten($blue, 5%);
+            background-color: color.adjust($blue, $lightness: 5%);
         }
 
         p{

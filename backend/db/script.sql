@@ -6,6 +6,7 @@ CREATE TABLE users(
 
 CREATE TABLE suppliers(
 	id_supplier INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    company_name VARCHAR(100) NOT NULL,
     contact_person VARCHAR(70) NOT NULL, 
     email VARCHAR(80) NOT NULL, 
     id_type INT NOT NULL,

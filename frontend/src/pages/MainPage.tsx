@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 import { IoMdLogOut } from "react-icons/io"
+import Suppliers from "../components/Suppliers"
 
 
 export default function MainPage() {
@@ -31,6 +32,9 @@ export default function MainPage() {
                     <IoMdLogOut />
                     <p onClick={logOut} >Cerrar Sesion</p>
                 </div>
+            </div>
+            <div>
+                <Suppliers />
             </div>
 
         </>

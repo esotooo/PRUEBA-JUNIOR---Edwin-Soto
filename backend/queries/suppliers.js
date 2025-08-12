@@ -37,43 +37,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var connection_1 = require("../db/connection");
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcrypt");
 var express_1 = require("express");
+var verifyToken_1 = require("../middlewares/verifyToken");
 var router = (0, express_1.Router)();
-//API para iniciar sesion en la aplicacion
-router.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, query, rows, user, isMatch, token, error_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+router.post('/suppliers', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, suppliers, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _b.trys.push([0, 3, , 4]);
-                _a = req.body, email = _a.email, password = _a.password;
-                query = 'SELECT id_user, email, pass FROM users WHERE email = ? ';
-                return [4 /*yield*/, connection_1.default.query(query, [email])];
+                _a.trys.push([0, 2, , 3]);
+                query = 'SELECT s.id_supplier, s.company_name, s.contact_person, s.email, s.phone, ' +
+                    ' t.supplier_type AS supplier_type ' +
+                    ' FROM suppliers s ' +
+                    ' INNER JOIN suppliers_type t ON s.id_type = t.id_type;';
+                return [4 /*yield*/, connection_1.default.query(query)];
             case 1:
-                rows = (_b.sent())[0];
-                if (rows.length === 0) {
-                    return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
+                suppliers = (_a.sent())[0];
+                if (suppliers.length > 0) {
+                    res.status(200).json(suppliers);
                 }
-                user = rows[0];
-                return [4 /*yield*/, bcrypt.compare(password, user.pass)];
+                else {
+                    res.status(404).json({ message: 'No records were found.' });
+                }
+                return [3 /*break*/, 3];
             case 2:
-                isMatch = _b.sent();
-                if (!isMatch) {
-                    return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
-                }
-                token = jwt.sign({ id: user.id_user, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10m' });
-                return [2 /*return*/, res.status(200).json({
-                        message: 'Logged In Successfully',
-                        token: token
-                    })];
-            case 3:
-                error_1 = _b.sent();
+                error_1 = _a.sent();
                 console.error(error_1);
-                console.log('Something went wrong, please try again.');
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                res.status(500).json({ message: 'Server error' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });

@@ -58,7 +58,7 @@ export default function LoginPage() {
                     password: newErrors.password ? 'Ingrese la contraseña' : ''
                 }
             )            
-
+            //En caso los inputs no se encuentre llenos, detenemos el codigo posterior
             return
         }
 
@@ -68,7 +68,6 @@ export default function LoginPage() {
             if(res.status === 200){
                 const {token} = res.data
                 setAdmin({token})
-                console.log(token)
                 navigate('/main', {replace: true})
             }
         }catch{
@@ -80,6 +79,7 @@ export default function LoginPage() {
         }
     }
 
+    //Proteger rutas en caso el usuario no este loggeado aun
     useEffect(() => {
         if(admin){
             navigate('/main')
