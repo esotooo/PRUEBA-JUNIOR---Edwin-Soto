@@ -1,14 +1,17 @@
 @use './variables' as *;
 
-h1{
+
+h1, p{
     font-family: $principal;
+    margin: 0;
 }
-h2{
+h2, h3, h4{
     font-family: $subtitle;
+    margin: 0;
 }
-h3{
-    font-family: $subtitle;
-}
-h4{
-    font-family: $subtitle;
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }

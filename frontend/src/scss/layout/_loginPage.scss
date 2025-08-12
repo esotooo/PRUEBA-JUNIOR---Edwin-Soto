@@ -1,0 +1,197 @@
+@use '../global/variables' as *;
+@use '../global/mixins' as *;
+
+
+/* Título del login */
+.login__title {
+  margin: 0;
+  background-color: $red;
+  padding-top: 1.5rem;
+  padding-bottom: 5rem;
+  color: $white;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Contenedor principal */
+.login__container {
+  margin-top: -3rem;
+  background-color: $white;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+/* Imagen del login */
+.login__image {
+  padding-top: 1.5rem;
+
+  img {
+    width: 100%;
+  }
+}
+
+/* Formulario */
+.login__form {
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 3rem;
+
+  h2 {
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+    color: $blue;
+  }
+
+  label,
+  input {
+    font-family: $subtitle;
+    font-size: 1.2rem;
+  }
+
+  input {
+    border-color: transparent;
+    width: 100%;
+    padding: 0.7rem;
+    font-family: $subtitle;
+    font-size: 1.2rem;
+    background-color: $slate;
+    box-sizing: border-box;
+    border-radius: 1rem;
+
+    &:focus {
+      outline: none;
+      background-color: $slate;
+      box-shadow: none;
+    }
+  }
+}
+
+/* Margen entre campos */
+.login__email,
+.login__password {
+  margin-bottom: 1rem;
+}
+
+/* Campo contraseña con icono */
+.login__password {
+  .password--hidden {
+    display: flex;
+    align-items: center;
+    background-color: $slate;
+    border-radius: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.1rem 0.3rem;
+
+    input {
+      flex-grow: 1;
+      border: none;
+      padding: 0.7rem 0.5rem;
+      font-family: $subtitle;
+      font-size: 1.2rem;
+      outline: none;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .password--eye {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+/* Botón de login - móvil: fijo abajo, ancho completo */
+.login__button {
+  margin-top: 0.5rem;
+  background-color: $blue;
+  color: $white;
+  font-family: $principal;
+  padding: 1.5rem 4rem;
+  border-radius: 1rem 1rem 0 0;
+  border: none;
+  cursor: pointer;
+
+  width: 100%;
+  display: block;
+  margin-left: auto;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+/* Tablet */
+@include tablet {
+  .login__title {
+    font-size: 4rem;
+
+    span {
+      font-size: 2rem;
+    }
+  }
+
+  .login__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 65%;
+    }
+  }
+
+  /* Botón toma todo el ancho, posición estática */
+  .login__button {
+    position: static;
+    width: 100%;
+    padding: 1rem 4rem;
+    margin-left: 0;
+    margin-top: 0.5rem;
+    border-radius: 1rem;
+  }
+}
+
+/* Desktop */
+@include desktop {
+  .login__container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .login__image {
+    img {
+      width: 100%;
+    }
+  }
+
+  .login__form {
+    padding-top: 5rem;
+    padding-left: 2rem;
+    padding-right: 5rem;
+
+    h2 {
+      font-size: 3rem;
+    }
+  }
+
+  /* Botón alineado a la derecha */
+  .login__button {
+    padding: 1rem 4rem;
+    width: auto;
+    position: static;
+    border-radius: 1rem;
+    margin-left: auto;      
+    display: block;
+  }
+}
