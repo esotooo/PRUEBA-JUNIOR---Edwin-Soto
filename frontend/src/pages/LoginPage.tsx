@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { FaEye } from "react-icons/fa"
 import { FaEyeSlash } from "react-icons/fa"
@@ -15,7 +15,7 @@ export default function LoginPage() {
     const [advice, setAdvice] = useState('')
     const [adviceAnim, setAdviceAnim] = useState('')
 
-    const { setAdmin } = useAuth()
+    const { admin, setAdmin } = useAuth()
 
     const navigate = useNavigate()
 
@@ -68,7 +68,7 @@ export default function LoginPage() {
             if(res.status === 200){
                 const {token} = res.data
                 setAdmin({token})
-                console.log(res.data)
+                console.log(token)
                 navigate('/main', {replace: true})
             }
         }catch{
@@ -79,6 +79,14 @@ export default function LoginPage() {
             )
         }
     }
+
+    useEffect(() => {
+        if(admin){
+            navigate('/main')
+        }else{
+            navigate('/login', {replace: true})
+        }
+    }, [admin, navigate])
 
   return (
     <div className="login">

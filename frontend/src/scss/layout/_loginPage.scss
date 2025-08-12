@@ -166,6 +166,10 @@
   margin-left: auto;
   position: static;
 
+  &:hover{
+    background-color: lighten($blue, 5%);
+  }
+
   @include tablet {
     padding: 1rem 4rem;
     margin-top: 0.5rem;
