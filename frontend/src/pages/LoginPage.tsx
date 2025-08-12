@@ -2,35 +2,83 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { FaEye } from "react-icons/fa"
 import { FaEyeSlash } from "react-icons/fa"
-
 import axios from 'axios'
+import { useAuth } from "../context/AuthContext"
 
 export default function LoginPage() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [hide, setHide] = useState(true)
+    const [errors, setErrors] = useState<{email?: string, password?: string}>({})
+    const [errorAnim, setErrorAnim] = useState<{ email?: string; password?: string }>({});
+    const [advice, setAdvice] = useState('')
+    const [adviceAnim, setAdviceAnim] = useState('')
+
+    const { setAdmin } = useAuth()
 
     const navigate = useNavigate()
 
+    // Función para mostrar mensaje con animación temporal
+    const showAnimatedMessage = (
+        setMsg: React.Dispatch<React.SetStateAction<any>>,
+        setAnim: React.Dispatch<React.SetStateAction<any>>,
+        msgValue: any,
+        fadeInClass = 'animate__animated animate__fadeIn',
+        fadeOutClass = 'animate__animated animate__fadeOut',
+        duration = 2000
+    ) => {
+        setMsg(msgValue)
+        setAnim(fadeInClass)
+
+        setTimeout(() => setAnim(fadeOutClass), duration)
+        setTimeout(() => {
+            setMsg(typeof msgValue === 'object' ? {} : '')
+            setAnim(typeof msgValue === 'object' ? {} : '')
+        }, duration + 1000)
+    }
+
+    //Funcion para iniciar sesión
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if(email.trim() === '' || password.trim() === ''){
+        const newErrors: typeof errors = {}
+
+        if(email.trim() === '') newErrors.email = 'Ingrese el correo electrónico'
+        if(password.trim() === '') newErrors.password = 'Ingrese la contraseña'
+
+        setErrors(newErrors)
+
+        if(Object.keys(newErrors).length > 0 ){
+            showAnimatedMessage(
+                setErrors,
+                setErrorAnim,
+                {
+                    email: newErrors.email ? 'Ingrese el correo electrónico' : '',
+                    password: newErrors.password ? 'Ingrese la contraseña' : ''
+                }
+            )            
+
             return
         }
 
         try{
+            setAdvice('')
             const res = await axios.post('http://localhost:4000/api/login', {email, password})
             if(res.status === 200){
+                const {token} = res.data
+                setAdmin({token})
                 console.log(res.data)
                 navigate('/main', {replace: true})
             }
-        }catch(error){
-            console.log(error)
+        }catch{
+            showAnimatedMessage(
+                setAdvice,
+                setAdviceAnim,
+                'El correo y/o contraseña son incorrectos. Por favor intente de nuevo.'
+            )
         }
     }
-
 
   return (
     <div className="login">
@@ -51,6 +99,11 @@ export default function LoginPage() {
                             <input type="email" id="email" placeholder="Ingrese su correo electrónico" 
                             value={email}
                             onChange={(e) => setEmail((e.target as HTMLInputElement).value)}/>
+                            {errors.email && (
+                                <div className={`error ${errorAnim.email || ''}`}>
+                                    {errors.email}
+                                </div>
+                            )}
                         </div>
 
                         {/* CAMPO CONTRASEÑA */}
@@ -64,12 +117,25 @@ export default function LoginPage() {
                                     {hide ? <FaEye /> : <FaEyeSlash />}
                                 </div>
                             </div>
+                            {errors.password && (
+                                <div className={`error ${errorAnim.password || ''}`}>
+                                    {errors.password}
+                                </div>
+                            )}        
                         </div>
+
+                        {/* Mensaje general de error */}
+                        {advice && (
+                            <div className={`error ${adviceAnim}`}>
+                                {advice}
+                            </div>
+                        )}
 
                         <button className="login__button">
                             Iniciar Sesión
                         </button>
                     </form>
+
                 </div>
         </div>   
     </div>
