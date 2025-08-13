@@ -6,17 +6,13 @@ import ConfirmDelete from "../components/ConfirmDelete";
 import SupplierSearchBar from "../components/SupplierSearchBar";
 import MainHeader from "../components/MainHeader";
 
-
 export default function Suppliers() {
     const {state, dispatch} = useSupplier()
      
-
-
     const closeForm = () => {
         dispatch({type: 'close-form'})  
     }
     
-
   return (
     <>
     <MainHeader />

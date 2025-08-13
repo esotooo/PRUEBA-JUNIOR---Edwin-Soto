@@ -9,7 +9,7 @@ type AuthContextProps = {
     admin: Admin | null
     setAdmin: (admin: Admin | null) => void
     authError: string 
-    setAuthError: ( authError : string) => void
+    setAuthError: ( msg : string) => void
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -29,6 +29,7 @@ export const AuthProvider = ({children} : {children: ReactNode}) => {
             localStorage.removeItem("admin")
         }
     }, [admin])
+    
 
     return(
         <AuthContext.Provider value={{admin, setAdmin, authError, setAuthError}}>

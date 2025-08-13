@@ -60,6 +60,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
         try{
             await axios.put(`http://localhost:4000/api/edit-supplier/${id}`, data, authHeader)
             // Volver a llamar a la API suppliers luego de actualizar un regsitro
+            dispatch({type:'close-form'})
             fetchSuppliers()
         }catch(error){
             console.error(error)

@@ -63,7 +63,7 @@ router.post('/login', function (req, res) { return __awaiter(void 0, void 0, voi
                 if (!isMatch) {
                     return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
                 }
-                token = jwt.sign({ id: user.id_user, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10m' });
+                token = jwt.sign({ id: user.id_user, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10s' });
                 return [2 /*return*/, res.status(200).json({
                         message: 'Logged In Successfully',
                         token: token

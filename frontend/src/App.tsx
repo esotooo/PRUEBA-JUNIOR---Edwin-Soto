@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage'
 import MainPage from './pages/MainPage';
+import SuppliersPages from './features/SuppliersPages';
+import PrivateRoutes from './components/PrivateRoutes';
 import './scss/App.scss';
 import 'animate.css';
-import SuppliersPages from './features/SuppliersPages';
+
 
 function App() {
 
@@ -13,7 +15,13 @@ function App() {
         <Route path='/' element={<Navigate to='/login' replace />} /> {/** Redireccionar a Login */}
         <Route path='/login' element={<LoginPage />}/>
         <Route path='/main' element={<MainPage />} />
-        <Route path='/suppliers' element={<SuppliersPages />}/>
+
+
+        {/* Rutas protegidas */}
+        <Route element={<PrivateRoutes />}>
+          <Route path='/suppliers' element={<SuppliersPages />}/>
+        </Route>
+        
       </Routes>
     </Router>
   )
