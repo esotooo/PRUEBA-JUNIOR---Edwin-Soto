@@ -5,9 +5,10 @@ export type SupplierActions =
     {type: 'show-form'} |
     {type: 'close-form'} |
     {type: 'set-suppliers', payload: {suppliers: suppliers[]}} | 
+    {type: 'set-types', payload: {supplierType: supplierType[]}} |
     {type: 'add-supplier', payload: {supplier: suppliers}} |
     {type: 'remove-supplier', payload: {id: suppliers['id_supplier']}} |
-    {type: 'edit-supplier', payload: {id: suppliers['id_type']}} |
+    {type: 'edit-supplier', payload: {id: suppliers['id_supplier']}} |
     {type: 'update-supplier', payload: {supplier: suppliers}} | 
     {type: 'filter-type', payload: {id: supplierType['id_type']}} |
     {type: 'filter-name', payload: {name: suppliers['company_name']}}
@@ -20,6 +21,7 @@ export type SupplierState = {
     editingId: suppliers['id_supplier'] | null
     currentCategory: supplierType['id_type'] | null
     currentName: suppliers['company_name']
+    supplierType: supplierType[]
 }
 
 //Iniciamos nuestro estado
@@ -28,7 +30,8 @@ export const initialState : SupplierState = {
     suppliers: [],
     editingId: null,
     currentCategory: null,
-    currentName: ''
+    currentName: '',
+    supplierType: []
 }
 
 export const supplierReducer = (
@@ -85,6 +88,11 @@ export const supplierReducer = (
             return{
                 ...state,
                 currentCategory: action.payload.id
+            }
+        case 'set-types':
+            return{
+                ...state,
+                supplierType: action.payload.supplierType
             }
 
         default:

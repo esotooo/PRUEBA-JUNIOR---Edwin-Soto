@@ -1,7 +1,12 @@
+/* VARIABLES GLOBALES */
 @forward './global/variables';
 @forward './global/mixins';
 @forward './global/generalContent';
+@forward './global/buttons';
 
-
+/* DISEÑO DE PAGINAS */
 @forward './layout/loginPage';
 @forward './layout/mainPage';
+@forward './layout/suppliersPage';
+@forward './layout/suppliersCards';
+@forward './layout/suppliersForm';

@@ -4,7 +4,7 @@ import { useSupplier } from '../hooks/useSupplier'
 import type { suppliers } from '../types/types'
 import { MdEditSquare } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-
+import 'react-swipeable-list/dist/styles.css';
 
 type SupplierDetailedProps = {
     supplier: suppliers
@@ -16,7 +16,9 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
     const leadingActions = () => (
         <LeadingActions >
             <SwipeAction onClick={() => dispatch({type: 'edit-supplier', payload: {id: supplier.id_supplier}})}>
-                Actualizar
+                <div className='my-leading-action'>
+                    Actualizar
+                </div>
             </SwipeAction>
         </LeadingActions>
     )
@@ -26,7 +28,9 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
             <SwipeAction onClick={() => dispatch({type: 'remove-supplier', payload: {id: supplier.id_supplier}})}
                 destructive={true}
             >
-                Eliminar
+                <div className='my-trailing-action'>
+                    Eliminar
+                </div>
             </SwipeAction>
         </TrailingActions>
     )
@@ -38,8 +42,20 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
             leadingActions={leadingActions()}
             trailingActions={trailingActions()}    
         >
-        <div className=''>
-            {supplier.company_name}
+        <div className='supplier__card' key={supplier.id_supplier}>
+            <div className='supplier__name'>
+                <h3>{supplier.company_name}</h3>
+                <div className='supplier__options'>
+                    <MdEditSquare className='option__edit' onClick={() => dispatch({type: 'edit-supplier', payload: {id: supplier.id_supplier}})}/>
+                    <MdDelete className='option__delete' onClick={() => dispatch({type: 'remove-supplier', payload: {id: supplier.id_supplier}})}/>
+                </div>
+            </div>
+            <div className='supplier__info'>
+                <h4>{supplier.supplier_type}</h4>
+                <p>Contacto: <span>{supplier.contact_person}</span></p>
+                <p>Email: <span>{supplier.email}</span></p>
+                <p>Teléfono: <span>{supplier.phone}</span></p>
+            </div>
         </div>
         </SwipeableListItem>
     </SwipeableList>

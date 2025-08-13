@@ -1,0 +1,86 @@
+@use '../global/variables' as *;
+@use '../global/mixins' as *;
+@use 'sass:color';
+
+.supplier__card {
+  border: 1px solid $slate;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  width: 100%;
+  margin-top: 1rem;
+
+  .supplier__name {
+    display: flex;
+
+    h3 {
+      color: $black;
+      font-family: $principal;
+      font-size: 1.9rem;
+    }
+  }
+
+  .supplier__info {
+    h4 {
+      color: $red;
+      font-family: $principal;
+      font-style: italic;
+      font-size: 1.4rem;
+      margin: -0.5rem 0 0.5rem;
+    }
+
+    p {
+      font-family: $subtitle;
+      font-weight: bold;
+      font-size: 1rem;
+
+      span {
+        font-weight: lighter;
+      }
+    }
+  }
+}
+
+.supplier__options {
+  display: none;
+
+  @include tablet {
+    display: flex;
+    margin-left: auto;
+    justify-content: center;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 1.8rem;
+
+    .option__edit,
+    .option__delete {
+      cursor: pointer;
+      color: $blue;
+
+      &:hover {
+        color: color.adjust($blue, $lightness: 10%);
+      }
+    }
+  }
+}
+
+.my-leading-action,
+.my-trailing-action {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 0.25rem;
+  height: calc(100% - 0.5rem);
+  width: calc(100% - 0.5rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: $principal;
+}
+
+.my-leading-action {
+  background-color: $yellow;
+}
+
+.my-trailing-action {
+  background-color: $red;
+  color: $white;
+}
