@@ -13,7 +13,8 @@ export type SupplierActions =
     {type: 'edit-supplier', payload: {id: suppliers['id_supplier']}} |
     {type: 'update-supplier', payload: {supplier: suppliers}} | 
     {type: 'filter-type', payload: {id: supplierType['id_type']}} |
-    {type: 'filter-name', payload: {name: suppliers['company_name']}}
+    {type: 'filter-name', payload: {name: suppliers['company_name']}} |
+    {type: 'no-results', payload: {message: string}}
 
 
 //Tipado de nuestras variables
@@ -26,6 +27,7 @@ export type SupplierState = {
     currentCategory: supplierType['id_type'] | null
     currentName: suppliers['company_name']
     supplierType: supplierType[]
+    noResultsMessage: string
 }
 
 //Iniciamos nuestro estado
@@ -37,7 +39,8 @@ export const initialState : SupplierState = {
     currentName: '',
     supplierType: [],
     confirmation: false,
-    selectedIdToDelete: null
+    selectedIdToDelete: null,
+    noResultsMessage: ''
 }
 
 export const supplierReducer = (
@@ -113,6 +116,11 @@ export const supplierReducer = (
                 ...state,
                 confirmation: false,
                 selectedIdToDelete: null
+            }
+        case 'no-results':
+            return{
+                ...state,
+                noResultsMessage: action.payload.message
             }
 
         default:

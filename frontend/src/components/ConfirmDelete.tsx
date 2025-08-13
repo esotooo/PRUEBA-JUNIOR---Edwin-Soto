@@ -15,12 +15,13 @@ export default function ConfirmDelete() {
     const handleCancel = () => dispatch({ type: 'close-confirmation', payload: {id: supplierId}})
 
     return (
-        <div className="form-overlay">
-            <div className="form-modal">
-                <h3>¿Está seguro que desea eliminar este proveedor?</h3>
-                <div className="confirm-buttons">
+        <div className="confirmation__overlay">
+            <div className="confirmation__content">
+                <h2>Eliminar Proveedor</h2>
+                <p>¿Está seguro que desea eliminar este proveedor?</p>
+                <div className="confirmation__buttons">
                     <button onClick={handleCancel}>Cancelar</button>
-                    <button onClick={handleConfirm} className="confirm-delete">Eliminar</button>
+                    <button onClick={handleConfirm} className="confirmation__delete">Eliminar</button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,82 @@
+@use '../global/variables' as *;
+@use '../global/mixins' as *;
+
+.confirmation__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmation__content {
+    background-color: $white; 
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 90%;
+    max-width: 60rem;
+    height: 25%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+
+    h2 {
+        font-family: $principal;  
+        color: $blue;
+        font-size: 2rem;  
+    }
+
+    p {
+        font-family: $subtitle;
+        color: $black;
+        font-weight: bold;
+        font-style: italic;
+    }
+}
+
+.confirmation__buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem; 
+
+    button{
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        color: $white;
+        &:first-child{
+            background-color: $blue;
+        }
+    }
+    .confirmation__delete{
+        background-color: $red;
+    }
+}
+
+
+
+@include phone {  
+    .confirmation__buttons {
+        flex-direction: column;
+        width: 100%;
+        button {
+            width: 100%;
+        }
+    }
+}
+
+@include tablet { 
+    .confirmation__buttons {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}

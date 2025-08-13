@@ -26,11 +26,11 @@ export default function MainHeader() {
   
   return (
     <div className="main__title">
-      <h1>SupplyHub</h1>
-      <div className="logout__button">
-          <IoMdLogOut />
-          <p onClick={logOut} >Cerrar Sesion</p>
-      </div>
+        <h1>SupplyHub</h1>
+        <div className="button logout__button" onClick={logOut}>
+            <IoMdLogOut />
+            <p>Cerrar Sesion</p>
+        </div>
     </div>
   )
 }

@@ -6,6 +6,10 @@ import { IoIosAddCircle } from "react-icons/io";
 import SuppliersList from "../components/SuppliersList"
 import SuppliersForm from "../components/SuppliersForm";
 import ConfirmDelete from "../components/ConfirmDelete";
+import SupplierSearchBar from "../components/SupplierSearchBar";
+
+
+
 
 export default function Suppliers() {
     const { setAdmin } = useAuth()
@@ -28,9 +32,9 @@ export default function Suppliers() {
     <>
     <div className="main__title">
         <h1>SupplyHub</h1>
-        <div className="button logout__button">
+        <div className="button logout__button" onClick={logOut}>
             <IoMdLogOut />
-            <p onClick={logOut} >Cerrar Sesion</p>
+            <p>Cerrar Sesion</p>
         </div>
     </div>
     <div className="main__content">
@@ -41,12 +45,19 @@ export default function Suppliers() {
                 <p>Agregar</p>
             </div>
         </div>
+        <SupplierSearchBar />
         <div>
-            <div className="suppliers__card">
-                {state.suppliers.map(supplier => (
-                    <SuppliersList key={supplier.id_supplier} supplier={supplier} />
-                ))}
+        <div className="suppliers__card">
+
+            {state.suppliers.length > 0 ? (
+                    state.suppliers.map(supplier => (
+                        <SuppliersList key={supplier.id_supplier} supplier={supplier} />))
+                    
+            ) :  (
+                state.noResultsMessage && <p>{state.noResultsMessage}</p>
+            )}
             </div>
+
         </div>
     </div>
     <div>

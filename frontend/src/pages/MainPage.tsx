@@ -28,9 +28,9 @@ export default function MainPage() {
         <>
             <div className="main__title">
                 <h1>SupplyHub</h1>
-                <div className="button logout__button">
+                <div className="button logout__button" onClick={logOut}>
                     <IoMdLogOut />
-                    <p onClick={logOut} >Cerrar Sesion</p>
+                    <p>Cerrar Sesion</p>
                 </div>
             </div>
             <div className="main__content">

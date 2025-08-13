@@ -18,8 +18,17 @@
       }
       p{
           margin-left: .5rem;
-          font-family: $subtitle;
+          font-family: $principal;
           font-weight: bold;
+          display: none;
       }
   
-  }
+}
+
+@include tablet{
+    .button{
+        p{
+            display: block;
+        }
+    }
+}

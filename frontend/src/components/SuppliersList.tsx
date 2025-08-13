@@ -51,9 +51,13 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
             </div>
             <div className='supplier__info'>
                 <h4>{supplier.supplier_type}</h4>
+                <div className='supplier__general'></div>
                 <p>Contacto: <span>{supplier.contact_person}</span></p>
                 <p>Email: <span>{supplier.email}</span></p>
                 <p>Teléfono: <span>{supplier.phone}</span></p>
+                <p>NIT: <span>{supplier.NIT}</span></p>
+                <p>Dirección: <span>{supplier.city}</span></p>
+                <p>Creado el: <span>{supplier.created_at}</span></p>
             </div>
         </div>
         </SwipeableListItem>

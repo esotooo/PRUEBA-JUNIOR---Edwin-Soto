@@ -43,6 +43,7 @@
   border-radius: 1rem;
   box-shadow: .1rem .1rem .3rem $slate;
   transition: transform ease-in-out .3s;
+  width: 100%;
 
   .card__icon{
     font-size: 2rem;
@@ -65,3 +66,8 @@
   }
 }
 
+@include tablet{
+  .card__option{
+    width: auto;
+  }
+}

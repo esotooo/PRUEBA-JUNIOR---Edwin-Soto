@@ -19,7 +19,8 @@ router.post('/suppliers', verifyToken,  async(req, res) => {
             s.phone, 
             s.NIT, 
             s.city,
-            s.id_type,        
+            s.id_type, 
+            s.created_at,     
             t.supplier_type   
             FROM suppliers s
             INNER JOIN suppliers_type t ON s.id_type = t.id_type;

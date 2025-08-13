@@ -109,7 +109,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
             <h2>{isEditing ? 'Editar Proveedor' : 'Agregar Proveedor'}</h2>
             <form onSubmit={handleSubmit}>
             
-                <div>
+                <div className="form__content">
                     <label htmlFor="company_name">Nombre de la compañía</label>
                     <input 
                         type="text" 
@@ -121,7 +121,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     />
                 </div>
 
-                <div>
+                <div className="form__content">
                     <label htmlFor="contact_person">Persona de Contacto</label>
                     <input 
                         type="text" 
@@ -133,7 +133,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     />
                 </div>
                 
-                <div>
+                <div className="form__content">
                     <label htmlFor="email">Correo Electrónico</label>
                     <input 
                         type="email" 
@@ -145,7 +145,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     />
                 </div>
 
-                <div>
+                <div className="form__content">
                     <label htmlFor="id_type">Tipo de Proveedor</label>
                     <select name="id_type" id="id_type" value={formData.id_type} onChange={handleChange} required>
                         <option value={0}>--- Seleccione una opción ---</option>
@@ -155,7 +155,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     </select>
                 </div>
                 
-                <div>
+                <div className="form__content">
                     <label htmlFor="NIT">NIT</label>
                     <input 
                         type="text" 
@@ -167,7 +167,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     />
                 </div>
 
-                <div>
+                <div className="form__content">
                     <label htmlFor="phone">Teléfono</label>
                     <input 
                         type="phone" 
@@ -179,7 +179,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     />
                 </div>
 
-                <div>
+                <div className="form__content">
                     <label htmlFor="city">Ciudad</label>
                     <input 
                         type="text" 
@@ -190,7 +190,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         required
                     />
                 </div>
-                    <button type="submit">{isEditing ? 'Actualizar' : 'Agregar'}</button>
+                    <button type="submit" className="button button__register">{isEditing ? 'Actualizar' : 'Agregar'}</button>
                 <div>
 
                 </div>

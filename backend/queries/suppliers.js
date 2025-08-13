@@ -48,7 +48,7 @@ router.post('/suppliers', verifyToken_1.default, function (req, res) { return __
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                query = "\n            SELECT \n            s.id_supplier, \n            s.company_name, \n            s.contact_person, \n            s.email, \n            s.phone, \n            s.NIT, \n            s.city,\n            s.id_type,        \n            t.supplier_type   \n            FROM suppliers s\n            INNER JOIN suppliers_type t ON s.id_type = t.id_type;\n        ";
+                query = "\n            SELECT \n            s.id_supplier, \n            s.company_name, \n            s.contact_person, \n            s.email, \n            s.phone, \n            s.NIT, \n            s.city,\n            s.id_type, \n            s.created_at,     \n            t.supplier_type   \n            FROM suppliers s\n            INNER JOIN suppliers_type t ON s.id_type = t.id_type;\n        ";
                 return [4 /*yield*/, connection_1.default.query(query)];
             case 1:
                 suppliers = (_a.sent())[0];
