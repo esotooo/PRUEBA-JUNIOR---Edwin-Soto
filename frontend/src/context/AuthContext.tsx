@@ -8,6 +8,8 @@ export type Admin = {
 type AuthContextProps = {
     admin: Admin | null
     setAdmin: (admin: Admin | null) => void
+    authError: string 
+    setAuthError: ( authError : string) => void
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -18,6 +20,8 @@ export const AuthProvider = ({children} : {children: ReactNode}) => {
         return saved?JSON.parse(saved) : null
     })
 
+    const [authError, setAuthError] = useState('')
+
     useEffect(() => {
         if(admin){
             localStorage.setItem("admin", JSON.stringify(admin))
@@ -27,7 +31,7 @@ export const AuthProvider = ({children} : {children: ReactNode}) => {
     }, [admin])
 
     return(
-        <AuthContext.Provider value={{admin, setAdmin}}>
+        <AuthContext.Provider value={{admin, setAdmin, authError, setAuthError}}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,27 +1,16 @@
-import { useAuth } from "../hooks/useAuth"
-import { useNavigate } from "react-router-dom"
-import { IoMdLogOut } from "react-icons/io"
 import { useSupplier } from "../hooks/useSupplier"
 import { IoIosAddCircle } from "react-icons/io";
 import SuppliersList from "../components/SuppliersList"
 import SuppliersForm from "../components/SuppliersForm";
 import ConfirmDelete from "../components/ConfirmDelete";
 import SupplierSearchBar from "../components/SupplierSearchBar";
-
-
+import MainHeader from "../components/MainHeader";
 
 
 export default function Suppliers() {
-    const { setAdmin } = useAuth()
     const {state, dispatch} = useSupplier()
-    const navigate = useNavigate()
      
-    
-    const logOut = () => {
-        localStorage.removeItem("admin")
-        navigate('/login')
-        setAdmin(null)
-    }
+
 
     const closeForm = () => {
         dispatch({type: 'close-form'})  
@@ -30,13 +19,7 @@ export default function Suppliers() {
 
   return (
     <>
-    <div className="main__title">
-        <h1>SupplyHub</h1>
-        <div className="button logout__button" onClick={logOut}>
-            <IoMdLogOut />
-            <p>Cerrar Sesion</p>
-        </div>
-    </div>
+    <MainHeader />
     <div className="main__content">
         <div className="content__title">
             <h2>Proveedores</h2>
@@ -45,8 +28,9 @@ export default function Suppliers() {
                 <p>Agregar</p>
             </div>
         </div>
+
         <SupplierSearchBar />
-        <div>
+
         <div className="suppliers__card">
 
             {state.suppliers.length > 0 ? (
@@ -56,14 +40,13 @@ export default function Suppliers() {
             ) :  (
                 state.noResultsMessage && <p>{state.noResultsMessage}</p>
             )}
-            </div>
+        </div>
 
         </div>
-    </div>
-    <div>
-        {state.form && <SuppliersForm onClose={closeForm} />}
-        {state.confirmation && <ConfirmDelete />}
-    </div>
+        <div>
+            {state.form && <SuppliersForm onClose={closeForm} />}
+            {state.confirmation && <ConfirmDelete />}
+        </div>
     </>
   )
 }

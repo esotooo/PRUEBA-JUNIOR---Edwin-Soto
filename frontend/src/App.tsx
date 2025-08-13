@@ -3,7 +3,7 @@ import LoginPage from './pages/LoginPage'
 import MainPage from './pages/MainPage';
 import './scss/App.scss';
 import 'animate.css';
-import SuppliersPage from './features/SuppliersPage';
+import SuppliersPages from './features/SuppliersPages';
 
 function App() {
 
@@ -13,7 +13,7 @@ function App() {
         <Route path='/' element={<Navigate to='/login' replace />} /> {/** Redireccionar a Login */}
         <Route path='/login' element={<LoginPage />}/>
         <Route path='/main' element={<MainPage />} />
-        <Route path='/suppliers' element={<SuppliersPage />}/>
+        <Route path='/suppliers' element={<SuppliersPages />}/>
       </Routes>
     </Router>
   )

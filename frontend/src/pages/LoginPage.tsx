@@ -15,7 +15,7 @@ export default function LoginPage() {
     const [advice, setAdvice] = useState('')
     const [adviceAnim, setAdviceAnim] = useState('')
 
-    const { admin, setAdmin } = useAuth()
+    const { admin, setAdmin, authError, setAuthError } = useAuth()
 
     const navigate = useNavigate()
 
@@ -81,12 +81,14 @@ export default function LoginPage() {
 
     //Proteger rutas en caso el usuario no este loggeado aun
     useEffect(() => {
-        if(admin){
-            navigate('/main')
+        if(authError){
+            const timer = setTimeout(() => setAuthError(''), 500);
+            return () => clearTimeout(timer)
         }else{
             navigate('/login', {replace: true})
         }
-    }, [admin, navigate])
+    }, [authError, setAuthError])
+
 
   return (
     <div className="login">
@@ -143,8 +145,10 @@ export default function LoginPage() {
                             Iniciar Sesión
                         </button>
                     </form>
-
                 </div>
+                {authError && (
+                    <div>{authError}</div>
+                )}
         </div>   
     </div>
   )
