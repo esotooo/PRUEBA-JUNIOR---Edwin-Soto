@@ -1,19 +1,32 @@
-import { FaSearch } from "react-icons/fa";
 import { useSupplier } from "../hooks/useSupplier"
 import { IoFilterCircleSharp } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import debounce from 'debounce';
-
-
 
 export default function SupplierSearchBar() {
 
     const {state, dispatch, searchByName, searchByType, fetchTypes, fetchSuppliers} = useSupplier()
     
     const [selectedType, setSelectedType] = useState<number | "">("");
+    const [showFilter, setShowFilter] = useState(false)
+    const filterRef = useRef<HTMLDivElement>(null);
+
 
     useEffect(() => {
         fetchTypes()
+    }, [])
+
+    // Cerrar dropdown al hacer click fuera
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+        if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+            setShowFilter(false)
+        }
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+        document.removeEventListener("mousedown", handleClickOutside)
+        }
     }, [])
 
     //Funcion para hacer busqueda despues de 500ms de que el usuario deje de escribir
@@ -40,6 +53,7 @@ export default function SupplierSearchBar() {
         } else {
           fetchSuppliers()
         }
+        setShowFilter(false) // cerrar dropdown al seleccionar
     }
 
     return (
@@ -50,30 +64,33 @@ export default function SupplierSearchBar() {
                     type="text" 
                     placeholder="Buscar por nombre..."
                     value={state.currentName}
-                    onChange={handleSearch}               
+                    onChange={handleSearch} 
+                    className="search__name"              
                 />
 
             {/** SELECT PARA BUSCAR POR TIPO */}
-            <div>
-                <IoFilterCircleSharp />
+            <div ref={filterRef} className="filter-container">
+                <IoFilterCircleSharp className="search__type--icon" onClick={() => setShowFilter(!showFilter)}/>
                 {/** VISTA PARA COMPUTADORAS*/}
-                <select name="" id="" onChange={handleTypeChange} value={selectedType|| 0}>
+                <select className="search__type--desktop" onChange={handleTypeChange} value={selectedType|| 0}>
                     <option value={0}>--- Seleccione una opción ---</option>
                     {state.supplierType.map(type => (
                         <option key={type.id_type} value={type.id_type}>{type.supplier_type}</option>
                     ))}
                 </select>
 
-                {/** VISTA PARA TELEFONOS Y TABLETS */}
-                <select name="" id="" onChange={handleTypeChange} value={selectedType || 0}>
-                    <option value={0}>--</option>
-                    {state.supplierType.map(type => (
-                        <option key={type.id_type} value={type.id_type}>{type.supplier_type}</option>
-                    ))}
-                </select>
-
+                {showFilter && (
+                /** VISTA PARA TELEFONOS Y TABLETS */
+                <div className="mobile-dropdown">
+                    <select className="search__type--mobile" onChange={handleTypeChange} value={selectedType || 0}>
+                        <option value={0}>--</option>
+                        {state.supplierType.map(type => (
+                            <option key={type.id_type} value={type.id_type}>{type.supplier_type}</option>
+                        ))}
+                    </select>
+                </div>
+                )}
             </div>
-
         </div>
     )
 }
