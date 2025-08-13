@@ -1,8 +1,9 @@
 export type suppliers = {
-    id_supplier: number
+    id_supplier?: number
     company_name: string
     contact_person: string
     email: string
+    id_type: number
     supplier_type: string
     NIT: string
     phone: string
@@ -11,7 +12,7 @@ export type suppliers = {
 }
 
 export type SupplierDB = {
-    id_supplier: number
+    id_supplier?: number
     company_name: string
     contact_person: string
     email: string
@@ -23,6 +24,6 @@ export type SupplierDB = {
 }
 
 export type supplierType = {
-    id_type: number
+    id_type?: number
     supplier_type: string
 }

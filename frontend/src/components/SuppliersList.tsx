@@ -25,8 +25,7 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
 
     const trailingActions = () => (
         <TrailingActions >
-            <SwipeAction onClick={() => dispatch({type: 'remove-supplier', payload: {id: supplier.id_supplier}})}
-                destructive={true}
+            <SwipeAction onClick={() => dispatch({type: 'show-confirmation', payload: {id: supplier.id_supplier}})}
             >
                 <div className='my-trailing-action'>
                     Eliminar
@@ -47,7 +46,7 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
                 <h3>{supplier.company_name}</h3>
                 <div className='supplier__options'>
                     <MdEditSquare className='option__edit' onClick={() => dispatch({type: 'edit-supplier', payload: {id: supplier.id_supplier}})}/>
-                    <MdDelete className='option__delete' onClick={() => dispatch({type: 'remove-supplier', payload: {id: supplier.id_supplier}})}/>
+                    <MdDelete className='option__delete' onClick={() => dispatch({type: 'show-confirmation', payload: {id: supplier.id_supplier}})}/>
                 </div>
             </div>
             <div className='supplier__info'>

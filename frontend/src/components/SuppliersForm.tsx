@@ -16,7 +16,6 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
     // Obtener el proveedor que se va a editar
     const supplierToEdit = state.suppliers.find(s => s.id_supplier === state.editingId)
 
-
     const [formData, setFormData] = useState<Omit<SupplierDB, 'id_supplier' | 'created_at'>>({
         company_name: '',
         contact_person: '',
@@ -25,10 +24,24 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         NIT: '',
         phone: '',
         city: ''
-      })
+    })
 
-
-    // Cerrar formulario si se hace click fuera del modal
+    //Cargar datos cuando cambia el proveedor a actualizar
+    useEffect(() => {
+        if (isEditing && supplierToEdit) {
+            setFormData({
+                company_name: supplierToEdit.company_name,
+                contact_person: supplierToEdit.contact_person,
+                email: supplierToEdit.email,
+                id_type: supplierToEdit.id_type,
+                NIT: supplierToEdit.NIT,
+                phone: supplierToEdit.phone,
+                city: supplierToEdit.city
+            })
+        } 
+    }, [isEditing, supplierToEdit])
+    
+    // Cerrar formulario si se hace click fuera del formulario
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
         if (formRef.current && !formRef.current.contains(event.target as Node)) {
@@ -51,42 +64,49 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         }))
       }
 
-      async function handleSubmit(e: React.FormEvent) {
+        async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
         if (formData.id_type === 0) {
-          alert("Selecciona un tipo de proveedor")
-          return
+            alert("Selecciona un tipo de proveedor")
+            return
         }
-    
-        // Crear objeto para enviar (añadiendo created_at con fecha actual ISO)
-        const newSupplier: Omit<SupplierDB, 'id_supplier'> = {
-          ...formData,
-          created_at: new Date().toISOString().split('T')[0]
-        }
-    
+
         try {
-          await addSupplier(newSupplier)
-          // cerrar form y limpiar campos
-          setFormData({
-            company_name: '',
-            contact_person: '',
-            email: '',
-            id_type: 0,
-            NIT: '',
-            phone: '',
-            city: ''
-          })
-          onClose()
+            if(isEditing && state.editingId && supplierToEdit){
+                await updateSupplier(state.editingId, {
+                    ...formData,
+                    created_at: supplierToEdit.created_at 
+                })
+            }else{
+                //Agregar nuevo proveedor
+                const newSupplier: Omit<SupplierDB, 'id_supplier'> = { //Omitimos el campo id_supplier ya que este se ingresa automaticamente
+                    ...formData, 
+                    created_at: new Date().toISOString().split('T')[0] //La fecha se pasa automaticamente
+                }
+                await addSupplier(newSupplier)
+                // cerrar form y limpiar campos
+                setFormData({
+                    company_name: '',
+                    contact_person: '',
+                    email: '',
+                    id_type: 0,
+                    NIT: '',
+                    phone: '',
+                    city: ''
+                })
+                onClose()
+                dispatch({type: 'close-form'})
+            }
         } catch (error) {
-          console.error(error)
+        console.error(error)
         }
-      }
+        }
 
 
     return (
         <div className="form-overlay">
         <div ref={formRef} className="form-modal">
-            <h2>Agregar Proveedor</h2>
+            <h2>{isEditing ? 'Editar Proveedor' : 'Agregar Proveedor'}</h2>
             <form onSubmit={handleSubmit}>
             
                 <div>
@@ -130,7 +150,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     <select name="id_type" id="id_type" value={formData.id_type} onChange={handleChange} required>
                         <option value={0}>--- Seleccione una opción ---</option>
                         {state.supplierType.map((type: supplierType) => (
-                            <option key={type.id_type} value={type.id_type}>{type.supplier_type}</option>
+                            <option key={type.id_type} value={type.id_type ?? ''}>{type.supplier_type}</option>
                         ))}
                     </select>
                 </div>
@@ -138,7 +158,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                 <div>
                     <label htmlFor="NIT">NIT</label>
                     <input 
-                        type="NIT" 
+                        type="text" 
                         id="NIT"
                         name="NIT"
                         value={formData.NIT}
@@ -162,7 +182,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                 <div>
                     <label htmlFor="city">Ciudad</label>
                     <input 
-                        type="city" 
+                        type="text" 
                         id="city"
                         name="city"
                         value={formData.city}
@@ -170,7 +190,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         required
                     />
                 </div>
-                    <button type="submit">Agregar</button>
+                    <button type="submit">{isEditing ? 'Actualizar' : 'Agregar'}</button>
                 <div>
 
                 </div>

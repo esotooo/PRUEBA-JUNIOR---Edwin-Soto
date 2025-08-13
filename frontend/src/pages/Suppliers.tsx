@@ -5,12 +5,14 @@ import { useSupplier } from "../hooks/useSupplier"
 import { IoIosAddCircle } from "react-icons/io";
 import SuppliersList from "../components/SuppliersList"
 import SuppliersForm from "../components/SuppliersForm";
+import ConfirmDelete from "../components/ConfirmDelete";
 
 export default function Suppliers() {
     const { setAdmin } = useAuth()
     const {state, dispatch} = useSupplier()
     const navigate = useNavigate()
-
+     
+    
     const logOut = () => {
         localStorage.removeItem("admin")
         navigate('/login')
@@ -20,6 +22,7 @@ export default function Suppliers() {
     const closeForm = () => {
         dispatch({type: 'close-form'})  
     }
+    
 
   return (
     <>
@@ -48,6 +51,7 @@ export default function Suppliers() {
     </div>
     <div>
         {state.form && <SuppliersForm onClose={closeForm} />}
+        {state.confirmation && <ConfirmDelete />}
     </div>
     </>
   )

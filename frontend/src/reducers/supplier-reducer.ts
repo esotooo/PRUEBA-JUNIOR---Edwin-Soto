@@ -4,6 +4,8 @@ import type { suppliers, supplierType } from "../types/types";
 export type SupplierActions = 
     {type: 'show-form'} |
     {type: 'close-form'} |
+    {type: 'show-confirmation', payload: {id: suppliers['id_supplier']}} |
+    {type: 'close-confirmation', payload: {id: suppliers['id_supplier']}} | 
     {type: 'set-suppliers', payload: {suppliers: suppliers[]}} | 
     {type: 'set-types', payload: {supplierType: supplierType[]}} |
     {type: 'add-supplier', payload: {supplier: suppliers}} |
@@ -17,6 +19,8 @@ export type SupplierActions =
 //Tipado de nuestras variables
 export type SupplierState = {
     form: boolean
+    confirmation: boolean
+    selectedIdToDelete: suppliers['id_supplier'] | null
     suppliers: suppliers[]
     editingId: suppliers['id_supplier'] | null
     currentCategory: supplierType['id_type'] | null
@@ -31,7 +35,9 @@ export const initialState : SupplierState = {
     editingId: null,
     currentCategory: null,
     currentName: '',
-    supplierType: []
+    supplierType: [],
+    confirmation: false,
+    selectedIdToDelete: null
 }
 
 export const supplierReducer = (
@@ -75,7 +81,9 @@ export const supplierReducer = (
         case 'update-supplier':
             return{
                 ...state,
-                suppliers: state.suppliers.map(supplier => supplier.id_supplier === action.payload.supplier.id_supplier ? action.payload.supplier : supplier),
+                suppliers: state.suppliers.map( supplier => supplier.id_supplier === action.payload.supplier.id_supplier ? {
+                    ...supplier, ...action.payload.supplier
+                } : supplier ),
                 form: false,
                 editingId: null
             }
@@ -93,6 +101,18 @@ export const supplierReducer = (
             return{
                 ...state,
                 supplierType: action.payload.supplierType
+            }
+        case 'show-confirmation':
+            return{
+                ...state,
+                confirmation: true,
+                selectedIdToDelete: action.payload.id
+            }
+        case 'close-confirmation':
+            return{
+                ...state,
+                confirmation: false,
+                selectedIdToDelete: null
             }
 
         default:

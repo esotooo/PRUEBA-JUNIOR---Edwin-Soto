@@ -10,10 +10,20 @@ const router = Router()
 //Visualizacion de proveedores con datos especificos para visualizacion general
 router.post('/suppliers', verifyToken,  async(req, res) => {
     try{
-        const query = 'SELECT s.id_supplier, s.company_name, s.contact_person, s.email, s.phone, ' +
-            ' t.supplier_type AS supplier_type '+
-            ' FROM suppliers s '+
-            ' INNER JOIN suppliers_type t ON s.id_type = t.id_type;'
+        const query = `
+            SELECT 
+            s.id_supplier, 
+            s.company_name, 
+            s.contact_person, 
+            s.email, 
+            s.phone, 
+            s.NIT, 
+            s.city,
+            s.id_type,        
+            t.supplier_type   
+            FROM suppliers s
+            INNER JOIN suppliers_type t ON s.id_type = t.id_type;
+        `
         const [suppliers] = await pool.query<RowDataPacket[]>(query)
         if(suppliers.length > 0){
             res.status(200).json(suppliers)
