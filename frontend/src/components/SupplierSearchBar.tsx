@@ -3,6 +3,8 @@ import { IoFilterCircleSharp } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 import debounce from 'debounce';
 
+// Componente de barra de búsqueda y filtrado para proveedores
+// Permite buscar por nombre con debounce y filtrar por tipo de proveedor
 export default function SupplierSearchBar() {
 
     const {state, dispatch, searchByName, searchByType, fetchTypes, fetchSuppliers} = useSupplier()
@@ -11,12 +13,12 @@ export default function SupplierSearchBar() {
     const [showFilter, setShowFilter] = useState(false)
     const filterRef = useRef<HTMLDivElement>(null);
 
-
+    // Cargar tipos de proveedores al montar el componente
     useEffect(() => {
         fetchTypes()
     }, [])
 
-    // Cerrar dropdown al hacer click fuera
+    // Cerrar dropdown al hacer click fuera del contenedor
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
         if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
@@ -29,7 +31,7 @@ export default function SupplierSearchBar() {
         }
     }, [])
 
-    //Funcion para hacer busqueda despues de 500ms de que el usuario deje de escribir
+    // Función para buscar por nombre con 500ms de debounce
     const debouncedSearch = debounce((name: string) => {
         if(name.trim()){
             searchByName(name.trim())
@@ -38,6 +40,7 @@ export default function SupplierSearchBar() {
         }
     }, 500)
 
+    // Manejar cambios en el input de búsqueda
     const handleSearch = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         const value = e.target.value
@@ -45,21 +48,22 @@ export default function SupplierSearchBar() {
         debouncedSearch(value)
     }
 
+    // Manejar cambios en el select de tipo de proveedor
     const handleTypeChange = (e : React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value
         setSelectedType(value ? Number(value) : "")
         if (value && Number(value) !== 0) {
-          searchByType(Number(value))
+          searchByType(Number(value)) // Filtrar por tipo seleccionado
         } else {
-          fetchSuppliers()
+          fetchSuppliers() // Restaurar lista completa si no hay filtro
         }
-        setShowFilter(false) // cerrar dropdown al seleccionar
+        setShowFilter(false) // Cerrar dropdown en móviles al seleccionar
     }
 
     return (
         <div className="main__searchbar">
 
-            {/** BARRA DE BUSQUEDA */}
+            {/** INPUT PARA BUSQUEDA CON NOMBRE */}
                 <input 
                     type="text" 
                     placeholder="Buscar por nombre..."
@@ -68,10 +72,11 @@ export default function SupplierSearchBar() {
                     className="search__name"              
                 />
 
-            {/** SELECT PARA BUSCAR POR TIPO */}
+            {/** CONTENEDOR DEL FILTRO POR TIPO */}
             <div ref={filterRef} className="filter-container">
                 <IoFilterCircleSharp className="search__type--icon" onClick={() => setShowFilter(!showFilter)}/>
-                {/** VISTA PARA COMPUTADORAS*/}
+
+                {/** SELECT VISIBLE TABLET Y ESCRITORIO*/}
                 <select className="search__type--desktop" onChange={handleTypeChange} value={selectedType|| 0}>
                     <option value={0}>--- Seleccione una opción ---</option>
                     {state.supplierType.map(type => (
@@ -80,7 +85,7 @@ export default function SupplierSearchBar() {
                 </select>
 
                 {showFilter && (
-                /** VISTA PARA TELEFONOS Y TABLETS */
+                /** DROPDOWN VISIBLE EN TELEFONOS */
                 <div className="mobile-dropdown">
                     <select className="search__type--mobile" onChange={handleTypeChange} value={selectedType || 0}>
                         <option value={0}>--</option>

@@ -7,17 +7,17 @@ type SuppliersFormProps = {
   onClose: () => void
 }
 
+// Componente de formulario para agregar o editar proveedores
+// Permite manejar tanto creación como actualización de registros
 export default function SuppliersForm({ onClose }: SuppliersFormProps) {
     const formRef = useRef<HTMLDivElement>(null)
     const { state, addSupplier, updateSupplier, dispatch} = useSupplier()
 
-    // Si editingId es null => agregar, si tiene valor => editar
+    // Determina si estamos editando un proveedor existente
     const isEditing = state.editingId !== null
-
-    // Obtener el proveedor que se va a editar
     const supplierToEdit = state.suppliers.find(s => s.id_supplier === state.editingId)
 
-    //Creamos el estado y omitimos campos que no se llenaran en el formulario
+    // Estado del formulario, excluyendo campos generados automáticamente
     const [formData, setFormData] = useState<Omit<SupplierDB, 'id_supplier' | 'created_at'>>({ 
         company_name: '',
         contact_person: '',
@@ -28,7 +28,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         city: ''
     })
 
-    //Cargar datos cuando cambia el proveedor a actualizar
+    // Cargar datos del proveedor seleccionado cuando cambia editingId
     useEffect(() => {
         if (isEditing && supplierToEdit) {
             setFormData({
@@ -43,7 +43,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         } 
     }, [isEditing, supplierToEdit])
     
-    // Cerrar formulario si se hace click fuera del formulario
+    // Cerrar el formulario si se hace click fuera del modal
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
         if (formRef.current && !formRef.current.contains(event.target as Node)) {
@@ -57,7 +57,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         }
     }, [onClose])
 
-    // Mostrar mensaje por 4 segundos
+    // Mostrar mensaje temporal y cerrar modal si la acción fue exitosa
     useEffect(() => {
         if(state.message){
             const timer = setTimeout(() => {
@@ -72,8 +72,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         }
     }, [state.message, dispatch, onClose])
 
-
-    // Manejar cambios en inputs y select
+    // Maneja cambios en inputs y select, actualizando el estado del formulario
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = e.target
         setFormData(prev => ({
@@ -82,30 +81,30 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         }))
     }
 
-    //Insertar datos a la base de datos al darle click al boton en el formulario
+    // Envío del formulario: validar, agregar o actualizar proveedor
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
 
-        //Validar si todos los campos estan llenos, si no detiene la ejecucion
+        // Validar campos obligatorios
         if(!fieldValidation()){
             return
         }
 
         try {
-            //Actualizar un proveedor
-            if(isEditing && state.editingId && supplierToEdit){ //Validar si existe un ID
+            if(isEditing && state.editingId && supplierToEdit){ 
+                // Actualizar proveedor existente
                 await updateSupplier(state.editingId, {
-                    ...formData, //Trae los datos que estan en el estado
-                    created_at: supplierToEdit.created_at //Mantiene la fecha de creación
+                    ...formData, 
+                    created_at: supplierToEdit.created_at // Mantener fecha original
                 })
             }else{
-                //Agregar nuevo proveedor
+                // Agregar nuevo proveedor
                 const newSupplier: Omit<SupplierDB, 'id_supplier'> = { //Omitimos el campo id_supplier ya que este se ingresa automaticamente
                     ...formData, 
-                    created_at: new Date().toISOString().split('T')[0] //La fecha se pasa automaticamente
+                    created_at: new Date().toISOString().split('T')[0] // Fecha actual automática
                 }
                 await addSupplier(newSupplier)
-                // cerrar form y limpiar campos
+                // Limpiar formulario después de agregar
                 setFormData({
                     company_name: '',
                     contact_person: '',
@@ -219,6 +218,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     <div className="error" id="error-city"></div>
                 </div>
 
+                {/** MENSAJE DE EXITO / ERROR */}
                 {state.message && (
                     <div className={`message ${state.message.type === 'success' ? 'message--success' : 'message--error'}`}>
                         {state.message.text}

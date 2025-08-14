@@ -10,11 +10,12 @@ type SupplierDetailedProps = {
     supplier: suppliers
 }
 
+// Componente que representa una tarjeta de proveedor con acciones deslizables
 export default function SuppliersList({supplier} : SupplierDetailedProps) {
     
     const { dispatch } = useSupplier()
     
-    //Acción al deslizar a la derecha
+    // Acción al deslizar hacia la derecha: actualizar proveedor
     const leadingActions = () => (
         <LeadingActions >
             <SwipeAction onClick={() => dispatch({type: 'edit-supplier', payload: {id: supplier.id_supplier}})}>
@@ -25,7 +26,7 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
         </LeadingActions>
     )
 
-    //Acción al deslizar a la izquierda
+    // Acción al deslizar hacia la izquierda: eliminar proveedor
     const trailingActions = () => (
         <TrailingActions >
             <SwipeAction onClick={() => dispatch({type: 'show-confirmation', payload: {id: supplier.id_supplier}})}
@@ -37,7 +38,7 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
         </TrailingActions>
     )
 
-    //Funcion para formatear 'fecha dd-MM-YYYY'
+    // Función para formatear la fecha de creación a 'dd-MM-YYYY'
     function formatDate(){
         const date = supplier.created_at.split('T')[0] || supplier.created_at.split('')[0]
         const  [year, month, day] = date.split('-')
@@ -54,15 +55,18 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
         >
         <div className='supplier__card' key={supplier.id_supplier}>
 
+            {/** NOMBRE DEL PROVEEDOR Y OPCIONES DE ACCION */}
             <div className='supplier__name'>
                 <h3>{supplier.company_name}</h3>
-                {/** OPCIONES UNICAMENTE DISPONIBLES EN TABLET Y ESCRITORIO */}
+
+                {/** OPCIONES VISIBLES UNICAMENTE EN TABLET Y ESCRITORIO */}
                 <div className='supplier__options'>
                     <MdEditSquare className='option__edit' onClick={() => dispatch({type: 'edit-supplier', payload: {id: supplier.id_supplier}})}/>
                     <MdDelete className='option__delete' onClick={() => dispatch({type: 'show-confirmation', payload: {id: supplier.id_supplier}})}/>
                 </div>
             </div>
             
+            {/** INFORMACION DETALLADA DEL PROVEEDOR */}
             <div className='supplier__info'>
                 <h4>{supplier.supplier_type}</h4>
                 <div className='supplier__general'></div>
