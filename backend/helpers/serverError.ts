@@ -1,4 +1,4 @@
-import {Response} from 'express'
+import { Response } from 'express'
 
 // Manejador centralizado para errores del servidor
 // Envía un mensaje genérico al cliente y registra el error en la consola

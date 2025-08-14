@@ -1,9 +1,11 @@
 import pool from '../db/connection' 
-import * as bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
+import { HashPassword } from '../types/types'
+
 
 // Función que recibe un correo y una contraseña en texto plano
 // La encripta y actualiza el usuario correspondiente en la base de datos
-async function hashPassword(email, plainPassword) {
+async function hashPassword({email, plainPassword} : HashPassword) {
   try {
     const saltRounds = 5 // Número de rondas de hash para bcrypt
     const hashedPassword = await bcrypt.hash(plainPassword, saltRounds) // Generar hash seguro
@@ -24,4 +26,4 @@ const emailToUpdate = 'admin@kratt.com'
 const newPlainPassword = 'admin2025'
 
 // Ejecuta la función
-hashPassword(emailToUpdate, newPlainPassword)
+hashPassword({ email: emailToUpdate, plainPassword: newPlainPassword });

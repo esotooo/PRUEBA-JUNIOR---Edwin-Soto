@@ -1,6 +1,6 @@
 import pool from '../db/connection'
-import * as jwt from 'jsonwebtoken'
-import * as bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 import { Router } from 'express'
 import { handleServerError } from '../helpers/serverError'
 import { LoginQueries } from './queriesSQL'

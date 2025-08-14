@@ -1,6 +1,6 @@
 import pool from '../db/connection'
-import {  ResultSetHeader, RowDataPacket } from "mysql2/promise"
-import {Router}  from 'express'
+import {  ResultSetHeader } from "mysql2/promise"
+import { Router }  from 'express'
 import verifyToken from '../middlewares/verifyToken'
 import { SupplierQueries } from './queriesSQL'
 import { handleServerError } from '../helpers/serverError'
@@ -10,7 +10,6 @@ const router = Router()
 
 
 //API's PROVEEDORES
-
 /** 
  * Obtener todos los proveedores
  * Protegido con JWT

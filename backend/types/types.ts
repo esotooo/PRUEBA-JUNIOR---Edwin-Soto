@@ -26,3 +26,9 @@ export interface SupplierType extends RowDataPacket{
     id_type: number
     supplier_type: string
 }
+
+// Representa los datos que debe tener la contraseña hasheada
+export interface HashPassword {
+    email: string
+    plainPassword: string
+  }

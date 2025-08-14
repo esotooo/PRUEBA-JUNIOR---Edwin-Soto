@@ -1,5 +1,5 @@
-import * as mysql from 'mysql2/promise'
-import * as dotenv from 'dotenv'
+import mysql from 'mysql2/promise'
+import dotenv from 'dotenv'
 
 dotenv.config() // Carga las variables de entorno desde .env
 
