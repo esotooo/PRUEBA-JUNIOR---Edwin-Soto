@@ -168,7 +168,7 @@ Body (JSON):
 
 ### Tips Postman
 
-- Crear un **Enviroment** con la variable `token`.
+- Crear un **Environment** con la variable `token`.
 - Usar `{{token}}` en todos los headers `Authorization`.
 
 ---
