@@ -4,7 +4,6 @@ import MainPage from './pages/MainPage';
 import SuppliersPages from './features/SuppliersPages';
 import PrivateRoutes from './components/PrivateRoutes';
 import './scss/App.scss';
-import 'animate.css';
 
 
 function App() {

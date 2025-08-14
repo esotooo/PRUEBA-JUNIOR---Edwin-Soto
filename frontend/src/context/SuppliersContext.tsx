@@ -1,7 +1,7 @@
 import { useReducer, createContext, type ReactNode, useEffect } from "react"
 import { supplierReducer, initialState, type SupplierActions, type SupplierState } from "../reducers/supplier-reducer"
 import { useAuth } from "../hooks/useAuth"
-import axios from 'axios'
+import { api } from '../helpers/axiosInstance'
 import type { SupplierDB } from "../types/types"
 
 
@@ -43,7 +43,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para ver los datos de proveedores
     const fetchSuppliers = async () => {
         try{
-            const res = await axios.get('http://localhost:4000/api/suppliers', authHeader)
+            const res = await api.get('/api/suppliers', authHeader)
             if(res.data.success){
                 dispatch({type: 'set-suppliers', payload: {suppliers: res.data.data}})
                 dispatch({ type: 'no-results', payload: { message: '' } })
@@ -59,7 +59,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para guardar nuevos proveedores
     const addSupplier = async (newSupplierData: Omit<SupplierDB, 'id_supplier'>) => {
         try{
-            const res = await axios.post('http://localhost:4000/api/add-supplier', newSupplierData, authHeader )
+            const res = await api.post('http://localhost:4000/api/add-supplier', newSupplierData, authHeader )
             if(!res.data.success){
                 dispatch({ type: 'set-message', payload: { type: 'error', text: res.data.message || 'Error al agregar proveedor' } })
             }
@@ -74,7 +74,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para actualizar los proveedores
     const updateSupplier = async( id: number, data: SupplierDB) => {
         try{
-            const res = await axios.put(`http://localhost:4000/api/edit-supplier/${id}`, data, authHeader)
+            const res = await api.put(`/api/edit-supplier/${id}`, data, authHeader)
             if(!res.data.success){
                 dispatch({ type: 'set-message', payload: { type: 'error', text: res.data.message || 'Error al actualizar proveedor' } })  
             }
@@ -89,7 +89,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para eliminar un proveedores
     const deleteSupplier = async (id: number) => {
         try{
-            await axios.delete(`http://localhost:4000/api/delete-supplier/${id}`, authHeader)
+            await api.delete(`/api/delete-supplier/${id}`, authHeader)
             dispatch({ type: 'remove-supplier', payload: { id } })
             dispatch({type: 'close-confirmation', payload: { id }})
 
@@ -103,7 +103,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para filtrar proveedores segun el nombre que ingrese el usuario
     const searchByName = async (name: string) => {
         try {
-            const res = await axios.get(`http://localhost:4000/api/suppliers/search-by-name?company_name=${name}`, authHeader)
+            const res = await api.get(`/api/suppliers/search-by-name?company_name=${name}`, authHeader)
           if(res.data.success && res.data.data.length > 0){
             dispatch({ type: 'set-suppliers', payload: { suppliers: res.data.data } })
             dispatch({ type: 'no-results', payload: { message: '' } })
@@ -119,7 +119,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para filtrar proveedores segun el nombre que ingrese el usuario
     const searchByType = async (idType: number) => {
         try {
-             const res = await axios.get(`http://localhost:4000/api/suppliers/search-by-type?id_type=${idType}`, authHeader)
+             const res = await api.get(`/api/suppliers/search-by-type?id_type=${idType}`, authHeader)
           if(res.data.success && res.data.data.length > 0){
             dispatch({ type: 'set-suppliers', payload: { suppliers: res.data.data } })
             dispatch({ type: 'no-results', payload: { message: '' } })
@@ -135,7 +135,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para visualizar todos los tipos de proveedores
     const fetchTypes = async () => {
         try {
-            const res = await axios.get('http://localhost:4000/api/supplier-type', authHeader)
+            const res = await api.get('/api/supplier-type', authHeader)
           if(res.data.success){
             dispatch({ type: 'set-types', payload: { supplierType: res.data.data } })
           } else {

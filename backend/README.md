@@ -20,7 +20,7 @@ Acceder a la carpeta `backend` e instalar las dependencias:
 
 ## Variables de entorno
 
-Crear un archivo `.env` con la siguiente información:
+Crear un archivo `.env` en la raíz de esta carpeta con la siguiente información:
 
 ```ini
     DB_HOST=localhost  
@@ -47,7 +47,7 @@ Ejecutar el siguiente comando en la terminal para compilar los archivos:
 
 ---
 
-## Iniciar el servidor
+## Iniciar el servidor de desarrollo
 
 Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar el servidor:
 

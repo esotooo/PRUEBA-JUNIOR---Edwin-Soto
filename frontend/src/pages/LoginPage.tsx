@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { FaEye } from "react-icons/fa"
 import { FaEyeSlash } from "react-icons/fa"
-import axios from 'axios'
 import { useAuth } from "../hooks/useAuth"
+import { api } from '../helpers/axiosInstance'
 
 export default function LoginPage() {
 
@@ -33,7 +33,7 @@ export default function LoginPage() {
     
         try {
             setAdvice('') //Limpiamos mensajes previos
-            const res = await axios.post('http://localhost:4000/api/login', { email, password })
+            const res = await api.post('/api/login', { email, password })
             if (res.status === 200) {
                 const { token } = res.data
                 setAdmin({ token }) //Guardamos token el estado global
