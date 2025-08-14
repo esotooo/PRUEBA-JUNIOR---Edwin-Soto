@@ -9,7 +9,7 @@
 
 ## Instalación de dependencias
 
-Acceder a la carpeta backend e instalar las dependencias.
+Acceder a la carpeta backend e instalar las dependencias:
 
 ```bash
   cd backend
@@ -20,7 +20,7 @@ Acceder a la carpeta backend e instalar las dependencias.
 
 ## Variables de entorno
 
-Crear un archivo ```.env``` con la siguiente información.
+Crear un archivo `.env` con la siguiente información:
 
 ```ini
     DB_HOST=localhost  
@@ -35,7 +35,7 @@ Crear un archivo ```.env``` con la siguiente información.
 
 ## Compilar TypeScript a JavaScript
 
-Ejecutar el siguiente comando en la terminal para compilar los archivos.
+Ejecutar el siguiente comando en la terminal para compilar los archivos:
 
 ```bash
     npm run build
@@ -47,7 +47,7 @@ Ejecutar el siguiente comando en la terminal para compilar los archivos.
 
 ## Iniciar el servidor
 
-Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar el servidor.
+Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar el servidor:
 
 ```bash
     npm start
@@ -67,9 +67,9 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 
 ## Base de Datos
 
-- Ejecutar el script SQL que se encuentra en  `db/script.sql` para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
+- Ejecutar el script SQL que se encuentra en  `/db/script.sql` para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
 - El usuario administrador ya tiene la contraseña hasheada.
-- Existe un helper en ```/helpers/hashPassword.ts``` para hashear nuevas contraseñas, unicamente se reemplaza la contraseña que se desea hashear.
+- Existe un helper en `/helpers/hashPassword.ts` para hashear nuevas contraseñas, unicamente se reemplaza la contraseña que se desea hashear.
 
 ---
 
