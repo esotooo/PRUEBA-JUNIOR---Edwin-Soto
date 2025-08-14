@@ -75,10 +75,105 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 
 ---
 
-## Notas adicionales
+## API y Postman
+
+Se incluye una colección de Postman con todos los endpoints listos para probar: login, listar, proveedores, agregar y filtrar por nombre o tipo.
+
+### Abrir colección en Postman
+[Edwin Soto's Workspace - Postman](https://edwinsoto-392155.postman.co/workspace/Edwin-Soto's-Workspace~27674111-be1e-47ff-88a5-40eefe1baa3b/request/46486862-6d6f9a4d-2d34-43e9-92b5-63fda6dea40f?action=share&creator=46486862&ctx=documentation&active-environment=46486862-fb6825e7-3f64-44a5-8e2e-97f7b3006503)
+
+---
+
+### Uso del workspace
+
+1. Selecciona el **environment** importado desde el workspace en la esquina superior derecha de Postman.  
+2. Ejecuta primero el endpoint **Login** para generar el token automáticamente en la variable `{{token}}`.  
+3. Todos los demás endpoints usarán `{{token}}` en el header `Authorization` automáticamente.  
+
+---
+
+### Headers requeridos
+
+- `Authorization: Bearer {{token}}` → para todos los endpoints protegidos.  
+- `Content-Type: application/json` → para endpoints que envían body (`POST /add-supplier`).  
+
+---
+
+### Endpoints principales
+
+1. Login administrador
+
+**POST /api/login**
+
+Body (JSON):
+
+```json
+{
+  "email": "admin@kratt.com",
+  "password": "123456"
+}
+```
+
+2. Listar Proveedores
+
+**GET /api/suppliers**
+
+**Respuesta de ejemplo:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id_supplier": 1,
+      "company_name": "ProveedorX",
+      "contact_person": "Juan Perez",
+      "email": "juan@proveedor.com",
+      "id_type": 1,
+      "NIT": "12345678",
+      "phone": "5555-5555",
+      "city": "Ciudad",
+      "created_at": "2025-08-14T12:00:00.000Z"
+    }
+  ]
+}
+```
+
+3. Agregar Proveedor
+**POST /api/add-suppliers**
+
+**Body (JSON):**
+
+```json
+{
+  "company_name": "ProveedorX",
+  "contact_person": "Juan Perez",
+  "email": "juan@proveedor.com",
+  "id_type": 1,
+  "NIT": "12345678",
+  "phone": "5555-5555",
+  "city": "Ciudad"
+}
+```
+> `id_supplier` y `created_at` se generan automáticamente en el backend. 
+
+4. Filtrar proveedor por nombre
+
+**GET /api/suppliers/search-by-name?company_name=ProveedorX**
+
+5. Filtrar proveedor por tipo
+**GET /api/suppliers/search-by-type?id_type=1**
+
+---
+
+### Tips Postman
+
+- Crear un **Enviroment** con la variable `token`.
+- Usar `{{token}}` en todos los headers `Authorization`.
+
+---
+
+### Notas adicionales
 
 - Todas las rutas de proveedores (```/api/suppliers```, ```/api/add-supplier```, etc.) requieren un **token JWT válido** para poder ejecutarse.
-
-
-
-
+- Asegúrate que la base de datos esté creada y el backend en ejecución antes de probar la API.
