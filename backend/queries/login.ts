@@ -1,7 +1,6 @@
 import pool from '../db/connection'
 import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt'
-import { RowDataPacket } from "mysql2/promise"
 import { Router } from 'express'
 import { handleServerError } from '../helpers/serverError'
 import { LoginQueries } from './queriesSQL'

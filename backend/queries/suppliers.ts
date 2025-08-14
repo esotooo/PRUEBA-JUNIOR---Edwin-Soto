@@ -1,6 +1,6 @@
 import pool from '../db/connection'
 import {  ResultSetHeader, RowDataPacket } from "mysql2/promise"
-import { Router } from 'express'
+import {Router}  from 'express'
 import verifyToken from '../middlewares/verifyToken'
 import { SupplierQueries } from './queriesSQL'
 import { handleServerError } from '../helpers/serverError'
@@ -37,8 +37,10 @@ router.get('/suppliers', verifyToken, async (req, res) => {
  */
 router.post('/add-supplier', verifyToken, async(req, res) => {
     try{
-        const {company_name, contact_person, email,  id_type, NIT, phone, city, created_at} = req.body
+        const {company_name, contact_person, email,  id_type, NIT, phone, city} = req.body
 
+        // Generar fecha actual automáticamente
+        const created_at = new Date();
 
         const [supplier] = await pool.query<ResultSetHeader>(SupplierQueries.add, [
             company_name, contact_person, email, id_type, NIT, phone, city, created_at

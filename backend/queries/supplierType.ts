@@ -1,5 +1,4 @@
 import pool from '../db/connection'
-import { RowDataPacket } from "mysql2/promise"
 import { Router } from 'express'
 import verifyToken from '../middlewares/verifyToken'
 import { handleServerError } from '../helpers/serverError'
