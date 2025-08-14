@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage'
 import MainPage from './pages/MainPage';
 import SuppliersPages from './features/SuppliersPages';
@@ -10,7 +10,6 @@ import 'animate.css';
 function App() {
 
   return (
-    <Router>
       <Routes>
         <Route path='/' element={<Navigate to='/login' replace />} /> {/** Redireccionar a Login */}
         <Route path='/login' element={<LoginPage />}/>
@@ -23,7 +22,6 @@ function App() {
         </Route>
         
       </Routes>
-    </Router>
   )
 }
 

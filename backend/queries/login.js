@@ -51,25 +51,25 @@ router.post('/login', function (req, res) { return __awaiter(void 0, void 0, voi
                 _b.trys.push([0, 3, , 4]);
                 _a = req.body, email = _a.email, password = _a.password;
                 if (!email || !password) {
-                    return [2 /*return*/, res.status(400).json({ success: false, message: 'Email and password are required' })];
+                    return [2 /*return*/, res.status(400).json({ success: false, message: 'Correo and contraseña son requeridos' })];
                 }
                 return [4 /*yield*/, connection_1.default.query(queriesSQL_1.LoginQueries.login, [email])];
             case 1:
                 rows = (_b.sent())[0];
                 if (rows.length === 0) {
-                    return [2 /*return*/, res.status(401).json({ success: false, message: 'Invalid email or password' })];
+                    return [2 /*return*/, res.status(401).json({ success: false, message: 'Correo o contraseña invalida.' })];
                 }
                 user = rows[0];
                 return [4 /*yield*/, bcrypt.compare(password, user.pass)];
             case 2:
                 isMatch = _b.sent();
                 if (!isMatch) {
-                    return [2 /*return*/, res.status(401).json({ success: false, message: 'Invalid email or password' })];
+                    return [2 /*return*/, res.status(401).json({ success: false, message: 'Correo o contraseña invalida.' })];
                 }
-                token = jwt.sign({ id: user.id_user, email: user.email, role: user.id_rol }, process.env.JWT_SECRET || 'defaultsecret', { expiresIn: '1h' });
+                token = jwt.sign({ id: user.id_user, email: user.email, role: user.id_rol }, process.env.JWT_SECRET || 'defaultsecret', { expiresIn: '10s' });
                 return [2 /*return*/, res.status(200).json({
                         success: true,
-                        message: 'Logged in successfully',
+                        message: 'Sesión iniciada exitosamente',
                         token: token
                     })];
             case 3:

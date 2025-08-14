@@ -14,7 +14,9 @@ export type SupplierActions =
     {type: 'update-supplier', payload: {supplier: suppliers}} | 
     {type: 'filter-type', payload: {id: supplierType['id_type']}} |
     {type: 'filter-name', payload: {name: suppliers['company_name']}} |
-    {type: 'no-results', payload: {message: string}}
+    {type: 'no-results', payload: {message: string}} |
+    {type: 'set-message', payload: {type: 'success' | 'error'; text: string } } |
+    {type: 'clear-message'}
 
 
 //Tipado de nuestras variables
@@ -28,6 +30,7 @@ export type SupplierState = {
     currentName: suppliers['company_name']
     supplierType: supplierType[]
     noResultsMessage: string
+    message: { type: 'success' | 'error'; text: string } | null
 }
 
 //Iniciamos nuestro estado
@@ -40,7 +43,8 @@ export const initialState : SupplierState = {
     supplierType: [],
     confirmation: false,
     selectedIdToDelete: null,
-    noResultsMessage: ''
+    noResultsMessage: '',
+    message: null
 }
 
 export const supplierReducer = (
@@ -87,8 +91,8 @@ export const supplierReducer = (
                 suppliers: state.suppliers.map( supplier => supplier.id_supplier === action.payload.supplier.id_supplier ? {
                     ...supplier, ...action.payload.supplier
                 } : supplier ),
-                form: false,
-                editingId: null
+                editingId: null,
+                form: false
             }
         case 'filter-name':
             return{
@@ -121,6 +125,16 @@ export const supplierReducer = (
             return{
                 ...state,
                 noResultsMessage: action.payload.message
+            }
+        case 'set-message':
+            return{
+                ...state,
+                message: {type: action.payload.type, text: action.payload.text}
+            }
+        case 'clear-message':
+            return{
+                ...state,
+                message: null
             }
 
         default:

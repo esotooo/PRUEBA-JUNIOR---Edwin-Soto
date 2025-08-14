@@ -11,6 +11,7 @@ export default function MainPage() {
 
     const navigate = useNavigate()
 
+    //Redirigir en caso el usuario no haya iniciado sesión
     useEffect(() => {
         if (!admin) {
           navigate('/login', { replace: true })

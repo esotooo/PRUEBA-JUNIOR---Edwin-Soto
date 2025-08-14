@@ -5,47 +5,50 @@ import SuppliersForm from "../components/SuppliersForm"
 import ConfirmDelete from "../components/ConfirmDelete"
 import SupplierSearchBar from "../components/SupplierSearchBar"
 import MainHeader from "../components/MainHeader"
+import { useAuth } from "../hooks/useAuth"
+import { useEffect } from "react"
 
 export default function Suppliers() {
-    const {state, dispatch} = useSupplier()
-     
+    const { state, dispatch } = useSupplier()
+    const { checkToken } = useAuth()  // solo usamos checkToken
+
     const closeForm = () => {
-        dispatch({type: 'close-form'})  
+        dispatch({ type: 'close-form' })
     }
-    
+
+    useEffect(() => {
+        checkToken() 
+    }, [])
+
     return (
         <>
             <MainHeader />
             <div className="main__content">
                 <div className="content__title">
                     <h2>Proveedores</h2>
-                    <div className="button add__button" onClick={() => dispatch({type: 'show-form'})}>
+                    <div className="button add__button" onClick={() => dispatch({ type: 'show-form' })}>
                         <IoIosAddCircle />
                         <p>Agregar</p>
                     </div>
                 </div>
 
-                {/** BARRA DE BUSQÚEDA */}
                 <SupplierSearchBar />
 
-                {/** TARJETAS DE PROVEEDORES */}
                 <div className="suppliers__card">
                     {state.suppliers.length > 0 ? (
-                            state.suppliers.map(supplier => (
-                                <SuppliersList key={supplier.id_supplier} supplier={supplier} />))
-                            
-                    ) :  (
+                        state.suppliers.map(supplier => (
+                            <SuppliersList key={supplier.id_supplier} supplier={supplier} />
+                        ))
+                    ) : (
                         state.noResultsMessage && <p>{state.noResultsMessage}</p>
                     )}
                 </div>
             </div>
-                
-            {/** VENTANA CONFIRMACION ELIMINAR PROVEEDOR */}
+
             <div>
                 {state.form && <SuppliersForm onClose={closeForm} />}
                 {state.confirmation && <ConfirmDelete />}
             </div>
-
         </>
     )
 }

@@ -68,3 +68,21 @@
     margin-top: auto; 
     width: 100%;
 }
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    font-family: $subtitle;
+    font-style: italic;
+    text-align: center;
+
+    &--error {
+        background-color: #E76268;      
+        color: white;                
+    }
+}
+
+  

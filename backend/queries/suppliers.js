@@ -57,7 +57,7 @@ router.get('/suppliers', verifyToken_1.default, function (req, res) { return __a
                     res.status(200).json({ success: true, data: suppliers });
                 }
                 else {
-                    res.status(200).json({ success: false, data: [], message: 'No suppliers found.' });
+                    res.status(200).json({ success: false, data: [], message: 'No se encontrar proveedores.' });
                 }
                 return [3 /*break*/, 3];
             case 2:
@@ -93,10 +93,10 @@ router.post('/add-supplier', verifyToken_1.default, function (req, res) { return
                         city: city,
                         created_at: created_at
                     };
-                    res.status(200).json({ success: true, data: newSupplier });
+                    res.status(200).json({ success: true, data: newSupplier, message: 'Proveedor agregado exitosamente.' });
                 }
                 else {
-                    res.status(200).json({ success: false, data: [], message: 'Supplier was not added.' });
+                    res.status(200).json({ success: false, data: [], message: 'No se ha agregado al proveedor.' });
                 }
                 return [3 /*break*/, 3];
             case 2:
@@ -129,10 +129,10 @@ router.put('/edit-supplier/:id', verifyToken_1.default, function (req, res) { re
             case 1:
                 supplier = (_b.sent())[0];
                 if (supplier.affectedRows > 0) {
-                    res.status(200).json({ success: true, message: 'Supplier updated successfully' });
+                    res.status(200).json({ success: true, message: 'El proveedor fue actualizado exitosamente.' });
                 }
                 else {
-                    res.status(200).json({ success: false, message: 'Supplier not found' });
+                    res.status(200).json({ success: false, message: 'No se encontraron registros.' });
                 }
                 return [3 /*break*/, 3];
             case 2:
@@ -155,10 +155,10 @@ router.delete('/delete-supplier/:id', verifyToken_1.default, function (req, res)
             case 1:
                 supplier = (_a.sent())[0];
                 if (supplier.affectedRows > 0) {
-                    res.status(200).json({ success: true, message: 'Supplier deleted successfully' });
+                    res.status(200).json({ success: true, message: 'El proveedor fue eliminado exitosamente.' });
                 }
                 else {
-                    res.status(200).json({ success: false, message: 'Supplier not found' });
+                    res.status(200).json({ success: false, message: 'No se encontro el proveedor.' });
                 }
                 return [3 /*break*/, 3];
             case 2:
@@ -178,7 +178,7 @@ router.get('/suppliers/search-by-name', verifyToken_1.default, function (req, re
                 _a.trys.push([0, 2, , 3]);
                 company_name = req.query.company_name;
                 if (!company_name) {
-                    return [2 /*return*/, res.status(400).json({ success: false, data: [], message: 'Company name is required' })];
+                    return [2 /*return*/, res.status(400).json({ success: false, data: [], message: 'El nombre de la compañia es requerido.' })];
                 }
                 return [4 /*yield*/, connection_1.default.query(queriesSQL_1.SupplierQueries.searchByName, ["%".concat(company_name, "%")])];
             case 1:
@@ -187,7 +187,7 @@ router.get('/suppliers/search-by-name', verifyToken_1.default, function (req, re
                     res.status(200).json({ success: true, data: results });
                 }
                 else {
-                    res.status(200).json({ success: false, data: [], message: 'No records found.' });
+                    res.status(200).json({ success: false, data: [], message: 'No se encontraron registros.' });
                 }
                 return [3 /*break*/, 3];
             case 2:
@@ -207,7 +207,7 @@ router.get('/suppliers/search-by-type', verifyToken_1.default, function (req, re
                 _a.trys.push([0, 2, , 3]);
                 id_type = req.query.id_type;
                 if (!id_type) {
-                    return [2 /*return*/, res.status(400).json({ success: true, data: [], message: 'Supplier type is required' })];
+                    return [2 /*return*/, res.status(400).json({ success: true, data: [], message: 'El tipo de proveedor es requerido' })];
                 }
                 return [4 /*yield*/, connection_1.default.query(queriesSQL_1.SupplierQueries.searchByType, [id_type])];
             case 1:
@@ -216,7 +216,7 @@ router.get('/suppliers/search-by-type', verifyToken_1.default, function (req, re
                     res.status(200).json({ success: true, data: results });
                 }
                 else {
-                    res.status(200).json({ success: false, data: [], message: 'No records found.' });
+                    res.status(200).json({ success: false, data: [], message: 'No se encontraron registros.' });
                 }
                 return [3 /*break*/, 3];
             case 2:

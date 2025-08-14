@@ -57,6 +57,21 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         }
     }, [onClose])
 
+    // Mostrar mensaje por 4 segundos
+    useEffect(() => {
+        if(state.message){
+            const timer = setTimeout(() => {
+                dispatch({ type: 'clear-message' })
+                // Cerrar modal solo si es éxito
+                if(state.message?.type === 'success'){
+                    onClose()
+                }
+            }, 4000)
+
+            return () => clearTimeout(timer)
+        }
+    }, [state.message, dispatch, onClose])
+
 
     // Manejar cambios en inputs y select
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -100,8 +115,6 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     phone: '',
                     city: ''
                 })
-                onClose()
-                dispatch({type: 'close-form'})
             }
         } catch (error) {
             console.error(error)
@@ -205,6 +218,12 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                     />
                     <div className="error" id="error-city"></div>
                 </div>
+
+                {state.message && (
+                    <div className={`message ${state.message.type === 'success' ? 'message--success' : 'message--error'}`}>
+                        {state.message.text}
+                    </div>
+                )}
 
                 {/** BOTON GUARDAR / ACTUALIZAR */}
                 <div>
