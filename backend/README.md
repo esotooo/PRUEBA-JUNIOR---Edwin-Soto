@@ -29,6 +29,7 @@ Crear un archivo `.env` con la siguiente información:
     DB_NAME=prueba_tecnica
     JWT_SECRET=una_clave_secreta
 ```
+
 > Nota: Los datos deben coincidir con tus credenciales de base de datos.
 Para JWT_SECRET, coloca la clave que desees usar.
 
@@ -61,8 +62,8 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 
 ## Scripts útiles
 
-- ``` npm run build ``` -> Compila TS a JS en la carpeta dist.
-- ``` npm start ``` -> Iniciar el servidor desde dist.
+- ` npm run build ` -> Compila TS a JS en la carpeta dist.
+- ` npm start ` -> Iniciar el servidor desde dist.
 
 ---
 
