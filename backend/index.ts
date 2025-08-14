@@ -1,5 +1,5 @@
-import * as express from 'express'
-import * as cors from 'cors'
+import express from 'express'
+import cors from 'cors'
 import loginRoutes from './queries/login'
 import suppliersRoutes from './queries/suppliers'
 import typeRoutes from './queries/supplierType'
