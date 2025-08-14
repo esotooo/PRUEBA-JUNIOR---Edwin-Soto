@@ -29,7 +29,7 @@ Crear un archivo `.env` con la siguiente información:
     DB_NAME=prueba_tecnica
     JWT_SECRET=una_clave_secreta
 ```
-*Nota: los datos que deben ser ingresados son tus credenciales de la base de datos. En el caso de JWT_SECRET debes colocar la clave que tu deseas.*
+> Nota: los datos que deben ser ingresados son tus credenciales de la base de datos. En el caso de JWT_SECRET debes colocar la clave que tu deseas.
 
 ---
 
