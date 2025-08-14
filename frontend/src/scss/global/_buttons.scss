@@ -1,33 +1,36 @@
-@use '../global/variables' as *;
-@use '../global/mixins' as *;
-@use 'sass:color';
+@use '../global/variables' as *;  
+@use '../global/mixins' as *;     
+@use 'sass:color';               
 
+/* Botón principal */
 .button {
     margin-left: auto;
     margin-top: 1rem;
-    background-color: $blue;
-    color: $white;
+    background-color: $blue;    // Fondo azul
+    color: $white;               // Texto blanco
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     border-radius: 1rem;
     padding: 1rem;
-      &:hover{
-          background-color: color.adjust($blue, $lightness: 5%);
-      }
-      p{
-          margin-left: .5rem;
-          font-family: $principal;
-          font-weight: bold;
-          display: none;
-      }
-  
+
+    &:hover {
+        background-color: color.adjust($blue, $lightness: 5%); // Cambio de color al pasar el mouse
+    }
+
+    p {
+        margin-left: 0.5rem;
+        font-family: $principal;
+        font-weight: bold;
+        display: none;               // Oculto en móvil
+    }
 }
 
-@include tablet{
-    .button{
-        p{
+/* Mostrar texto del botón en tablet y superior */
+@include tablet {
+    .button {
+        p {
             display: block;
         }
     }

@@ -1,6 +1,7 @@
 @use '../global/variables' as *;
 @use '../global/mixins' as *;
 
+// Contenedor principal de la barra de búsqueda
 .main__searchbar {
   display: flex;
   flex-direction: row;
@@ -8,15 +9,16 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: rgba(255,255,255,0.9);
-  backdrop-filter: blur(5px);
+  background-color: rgba(255,255,255,0.9); // Fondo semitransparente
+  backdrop-filter: blur(5px);              // Efecto blur detrás
   -webkit-backdrop-filter: blur(5px);
-  position: fixed;
+  position: fixed;                         // Siempre visible en pantalla
   bottom: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
 
+  // Estilos responsivos para tablets
   @include tablet {
     position: static;
     bottom: auto;
@@ -29,6 +31,7 @@
   }
 }
 
+// Campo de búsqueda por nombre
 .search__name {
   flex: 1; 
   background-color: $slate;
@@ -40,23 +43,28 @@
   max-width: 20rem;
 
   @include tablet {
-    flex: 0 0 50%; 
-    max-width: 50%;  }
+    flex: 0 0 50%;  // Ocupa la mitad en tablets
+    max-width: 50%;
+  }
 }
 
+// Contenedor para el filtro por tipo
 .filter-container {
   position: relative; 
 
+  // Icono para abrir el dropdown en móvil
   .search__type--icon {
     font-size: 2rem;
     color: $blue;
     cursor: pointer;
     display: block;
+
     @include tablet {
-      display: none;
+      display: none; // Oculto en tablets y desktop
     }
   }
 
+  // Dropdown móvil para seleccionar tipo de proveedor
   .mobile-dropdown {
     position: absolute;
     bottom: 100%; 
@@ -79,8 +87,9 @@
     }
   }
 
+  // Select para escritorio
   .search__type--desktop {
-    display: none;
+    display: none;             // Oculto por defecto
     border: none;
     background-color: $slate;
     font-family: $subtitle;
@@ -89,7 +98,7 @@
     border-radius: .5rem;
 
     @include tablet {
-      display: block;
+      display: block;          // Visible en tablets y desktop
       width: auto;
       flex: 0 0 50%; 
       max-width: 100%;

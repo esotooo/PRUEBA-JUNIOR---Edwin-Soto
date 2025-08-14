@@ -3,7 +3,6 @@ import { supplierReducer, initialState, type SupplierActions, type SupplierState
 import { useAuth } from "../hooks/useAuth"
 import axios from 'axios'
 import type { SupplierDB } from "../types/types"
-import { useNavigate } from "react-router-dom"
 
 
 type SupplierContextProps = {
@@ -32,7 +31,10 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
 
     const authHeader = { headers: { Authorization: `Bearer ${admin?.token}` }}
 
-    
+
+    // Antes solíamos hacer validaciones de token dentro de cada llamada a API (fetchSuppliers, addSupplier, etc.)
+    // Ahora solo usamos el token para los headers Authorization. Cualquier expiración o invalidez
+    // será manejada globalmente en AuthContext, lo que evita duplicar lógica en múltiples lugares.
     const handleAuthError = (error: any) => {
         const message = error.response?.data?.message || 'Error en el servidor'
         dispatch({ type: 'set-message', payload: { type: 'error', text: message } })
@@ -146,6 +148,11 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     
     //Renderizar los proveedores y tipos de proveedores
     useEffect(() => {
+            // Antes validábamos aquí si el token existía y si estaba expirado.
+            // Ahora esto ya no es necesario, porque AuthContext se encarga de:
+            // - Redirigir al login si admin es null
+            // - Manejar token expirado
+            // Así que solo necesitamos cargar datos si admin tiene token válido
         if (admin?.token){
             fetchTypes()
             fetchSuppliers()

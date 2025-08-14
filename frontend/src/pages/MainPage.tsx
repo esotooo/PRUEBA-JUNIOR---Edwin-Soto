@@ -20,10 +20,14 @@ export default function MainPage() {
 
     return (
         <>
+            {/* ENCABEZADO DE LA PAGINA */}
             <MainHeader />
+
+            { /** CONTENEDOR PRINCIPAL */}
             <div className="main__content">
                 <h2>Bienvenido!</h2>
-                <p></p>
+
+                {/** ESPACION DISPONIBLE PARA TARJETAS DE OPCIONES */}
                 <div className="cards__options">
                     <Link to="/suppliers" className="card__option">
                     <div className="card__icon">
@@ -35,8 +39,8 @@ export default function MainPage() {
                     </div>
                     </Link>
                 </div>
-            </div>
 
+            </div>
         </>
     )
 }

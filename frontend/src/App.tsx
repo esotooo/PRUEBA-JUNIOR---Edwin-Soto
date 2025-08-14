@@ -11,12 +11,16 @@ function App() {
 
   return (
       <Routes>
-        <Route path='/' element={<Navigate to='/login' replace />} /> {/** Redireccionar a Login */}
+        
+        {/* Redireccionar la raíz al login */}
+        <Route path='/' element={<Navigate to='/login' replace />} />
+
+        {/* Rutas públicas */}
         <Route path='/login' element={<LoginPage />}/>
         <Route path='/main' element={<MainPage />} />
 
 
-        {/* Rutas protegidas */}
+        {/* Rutas protegidas: solo accesibles si el usuario está autenticado */}
         <Route element={<PrivateRoutes />}>
           <Route path='/suppliers' element={<SuppliersPages />}/>
         </Route>

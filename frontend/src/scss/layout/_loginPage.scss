@@ -2,33 +2,33 @@
 @use '../global/mixins' as *;
 @use 'sass:color';
 
-/* Título del login */
+// Título principal del login
 .login__title {
   margin: 0;
-  background-color: $yellow;
+  background-color: $yellow;           // Fondo amarillo
   padding-top: 1.5rem;
   padding-bottom: 5rem;
-  color: $blue;
+  color: $blue;                        // Texto azul
   font-size: 2rem;
   text-align: center;
 
   @include tablet {
-    font-size: 4rem;
+    font-size: 4rem;                    // Más grande en tablet
 
     span {
-      font-size: 2rem;
+      font-size: 2rem;                  // Ajuste de span en tablet
     }
   }
 }
 
-/* Contenedor principal */
+// Contenedor principal del login
 .login__container {
-  margin-top: -3rem;
-  background-color: $white;
+  margin-top: -3rem;                    // Superpone el contenedor sobre el título
+  background-color: $white;             // Fondo blanco
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(1, 1fr); // Una columna por defecto
   padding-bottom: .5rem;
 
   @include tablet {
@@ -36,34 +36,34 @@
   }
 
   @include desktop {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); // Dos columnas en escritorio
   }
 }
 
-/* Imagen del login */
+// Contenedor de la imagen
 .login__image {
   padding-top: 1.5rem;
 
   img {
-    width: 100%;
+    width: 100%;                         // Imagen ocupa todo el ancho
 
     @include tablet {
-      width: 65%;
+      width: 65%;                        // Ajuste en tablet
     }
 
     @include desktop {
-      width: 100%;
+      width: 100%;                       // Volver al 100% en escritorio
     }
   }
 
   @include tablet {
-    display: flex;
+    display: flex;                        // Centrado de imagen
     align-items: center;
     justify-content: center;
   }
 }
 
-/* Formulario */
+// Contenedor del formulario
 .login__form {
   padding-top: 2rem;
   padding-left: 2rem;
@@ -79,6 +79,7 @@
     }
   }
 
+  // Tipografía de etiquetas e inputs
   label,
   input {
     font-family: $subtitle;
@@ -89,14 +90,12 @@
     border-color: transparent;
     width: 100%;
     padding: 0.7rem;
-    font-family: $subtitle;
-    font-size: 1.2rem;
     background-color: $slate;
     box-sizing: border-box;
     border-radius: 1rem;
 
     &:focus {
-      outline: none;
+      outline: none;                     // Sin borde al enfocar
       background-color: $slate;
       box-shadow: none;
     }
@@ -109,13 +108,13 @@
   }
 }
 
-/* Margen entre campos */
+// Margen inferior entre campos
 .login__email,
 .login__password {
   margin-bottom: 1rem;
 }
 
-/* Campo contraseña con icono */
+// Campo de contraseña con icono
 .login__password {
   .password--hidden {
     display: flex;
@@ -137,6 +136,7 @@
       min-width: 0;
     }
 
+    // Icono para mostrar/ocultar contraseña
     .password--eye {
       margin: 0 0.5rem;
       cursor: pointer;
@@ -151,7 +151,7 @@
   }
 }
 
-/* Botón de login */
+// Botón de login
 .login__button {
   margin-top: 0.5rem;
   background-color: $blue;
@@ -166,8 +166,8 @@
   margin-left: auto;
   position: static;
 
-  &:hover{
-    background-color: color.adjust($blue, $lightness: 5%);
+  &:hover {
+    background-color: color.adjust($blue, $lightness: 5%); // Cambio de color al pasar el cursor
   }
 
   @include tablet {
@@ -181,5 +181,3 @@
     padding: 1rem 4rem;
   }
 }
-
-

@@ -1,6 +1,7 @@
 @use '../global/variables' as *;
 @use '../global/mixins' as *;
 
+// Estilos para el título y botón de la sección de contenido
 .content__title {
   padding-top: 1rem;
   margin-bottom: .5rem;
@@ -8,11 +9,13 @@
   flex-direction: column;
   padding-right: 2rem;
 
+  // Estilos del título h2 dentro de content__title
   h2 {
     font-size: 2.5rem;
-    color: $skyblue;
+    color: $skyblue // color principal definido en variables globales
   }
 
+  // Estilos del botón de agregar
   .add__button {
     display: flex;          
     align-items: center;     
@@ -20,35 +23,37 @@
     width: 100%;
     gap: 0.5rem;             
     cursor: pointer; 
-    p{
+
+    // Asegura que el texto dentro del botón se muestre correctamente
+    p {
       display: block;
     }        
   }
 }
 
-.suppliers__card{
-    margin: 0;
+// Estilos para el contenedor de las tarjetas de proveedores
+.suppliers__card {
+  margin: 0;
 }
 
-
+// Media query para tablet
 @include tablet {
   .content__title {
-    flex-direction: row;
+    flex-direction: row; // cambia a fila en tablets
     align-items: center;
     padding-right: 0;
 
     .add__button {
       display: flex;
-      width: auto;
-      margin-left: auto;    
+      width: auto; // se ajusta el ancho al contenido
+      margin-left: auto; // empuja el botón a la derecha
     }
   }
-
 }
 
-@include desktop{
-  .suppliers__card{
-    margin: 0 2rem;
-   }
+// Media query para desktop
+@include desktop {
+  .suppliers__card {
+    margin: 0 2rem; // agrega margen horizontal en pantallas grandes
+  }
 }
-

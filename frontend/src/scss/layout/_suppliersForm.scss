@@ -1,27 +1,27 @@
 @use '../global/variables' as *;
 @use '../global/mixins' as *;
 
-// Estilo para el overlay que cubre toda la pantalla
+// Estilo para el overlay que cubre toda la pantalla cuando se abre un formulario
 .form-overlay {
-    position: fixed;
+    position: fixed;         // Siempre visible sobre el contenido
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.5); // Fondo semi-transparente
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1000;           // Sobre otros elementos
 }
   
-// Contenedor del formulario
+// Contenedor principal del formulario modal
 .form-modal {
     background-color: $white; 
     border-radius: 1rem;
     padding: 2rem;
-    width: 90%;
-    max-width: 60rem;
+    width: 90%;               // Responsive, ocupa casi toda la pantalla
+    max-width: 60rem;         // Limita ancho máximo
     height: 80%;
     box-shadow: 0 0 10px rgba(0,0,0,0.25);
     display: flex;
@@ -33,14 +33,15 @@
         font-size: 2rem;  
         margin-bottom: 1.5rem;
     }
-    form{
+
+    form {
         display: flex;
         flex-direction: column;
-        flex: 1;
+        flex: 1;              // Ocupa todo el espacio disponible dentro del modal
     }
 }
 
-// Contenido del formulario
+// Contenido interno del formulario (inputs, labels)
 .form__content {
     display: flex;
     flex-direction: column;
@@ -61,14 +62,15 @@
     }
 }
 
-// Botón de registro
+// Botón de registro dentro del formulario
 .button__register {
     border: none;
     font-family: $principal;
-    margin-top: auto; 
+    margin-top: auto; // Se pega al final del formulario
     width: 100%;
 }
 
+// Mensajes de error o notificaciones dentro del formulario
 .message {
     padding: 10px;
     margin-bottom: 10px;
@@ -77,12 +79,9 @@
     font-weight: bold;
     font-family: $subtitle;
     font-style: italic;
-    text-align: center;
 
     &--error {
-        background-color: #E76268;      
-        color: white;                
+        background-color: #E76268; // Color rojo para errores      
+        color: white;              // Texto en blanco
     }
 }
-
-  

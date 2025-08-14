@@ -1,24 +1,28 @@
-@use './variables' as *;
+@use './variables' as *; 
 
+/* Tipografías globales */
+h1, p {
+  font-family: $principal;  // Títulos y párrafos
+  margin: 0;
+}
 
-h1, p{
-    font-family: $principal;
-    margin: 0;
+h2, h3, h4 {
+  font-family: $subtitle ; // Subtítulos
+  margin: 0;
 }
-h2, h3, h4{
-    font-family: $subtitle;
-    margin: 0;
-}
+
+/* Reset de html y body */
 html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
+/* Estilo para errores */
 .error {
-    margin-top: 0.1rem;
-    font-family: $subtitle;
-    color: $red;
-    font-size: .8rem;
-  }
+  margin-top: 0.1rem;
+  font-family: $subtitle;
+  color: $red;
+  font-size: 0.8rem;
+}

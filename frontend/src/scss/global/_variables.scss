@@ -1,16 +1,16 @@
+// Importamos fuentes desde Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Paytone+One&family=Poiret+One&display=swap');
 
 /* Colores */
-$yellow: #FCDC73;
-$red: #E76268;
-$blue: #193948;
-$skyblue: #4FADC0;
-$white: #FFF;
-$black: #000;
-$slate: #E2E8F0;
+$yellow: #FCDC73;   // Amarillo
+$red: #E76268;      // Rojo
+$blue: #193948;     // Azul oscuro
+$skyblue: #4FADC0;  // Azul claro
+$white: #FFF;       // Blanco
+$black: #000;       // Negro
+$slate: #E2E8F0;    // Gris claro
 
 /* Fuentes */
-$principal: "Paytone One", sans-serif;
-$subtitle: "Funnel Sans", sans-serif;
-$content: "Poiret One", sans-serif;
-
+$principal: "Paytone One", sans-serif;  // Títulos
+$subtitle: "Funnel Sans", sans-serif;   // Texto secundario
+$content: "Poiret One", sans-serif;     // Texto decorativo

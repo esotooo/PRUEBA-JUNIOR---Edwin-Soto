@@ -2,72 +2,80 @@
 @use '../global/mixins' as *;
 @use 'sass:color';
 
+// Título principal de la página
 .main__title {
-    background-color: $yellow;
-    display: flex;
-    padding: 2rem 2rem 4rem 2rem;
+    background-color: $yellow;       // Fondo amarillo
+    display: flex;                   // Contenido en línea
+    padding: 2rem 2rem 4rem 2rem;    // Espaciado: top, right, bottom, left
 
     h1 {
-      color: $blue;
-      font-size: 3rem;
+      color: $blue;                  // Texto azul
+      font-size: 3rem;               // Tamaño grande
     }
-  
 }
 
-.main__content{
-  margin-top: -2rem;
-  background-color: $white;
-  border-radius: 2rem 2rem 0 0;
-  padding: 2rem;
-  h2{
-    font-family: $principal;
-    font-size: 2.5rem;
-    color: $skyblue;
+// Contenedor del contenido principal
+.main__content {
+  margin-top: -2rem;                 // Superpone un poco sobre el título
+  background-color: $white;          // Fondo blanco
+  border-radius: 2rem 2rem 0 0;      // Bordes redondeados solo arriba
+  padding: 2rem;                     // Espaciado interno
+
+  h2 {
+    font-family: $principal;         // Fuente principal
+    font-size: 2.5rem;               // Tamaño grande
+    color: $skyblue;                 // Azul claro
   }
 }
 
-.cards__options{
+// Contenedor de las opciones en forma de cards
+.cards__options {
   margin-top: 1.5rem;
-  text-decoration: none;
-  display: flex;
+  text-decoration: none;             // Sin subrayado
+  display: flex;                     // Mostrar en fila
 }
-  
-.card__option{
-  border: 1px solid $slate;
+
+// Cada card individual
+.card__option {
+  border: 1px solid $slate;          // Borde gris
   display: flex;
-  padding: 2rem;    
-  gap: .5rem;
+  padding: 2rem;
+  gap: .5rem;                        // Separación entre icono y texto
   justify-content: center;
   align-items: center;
-  text-decoration: none;
-  border-radius: 1rem;
-  box-shadow: .1rem .1rem .3rem $slate;
-  transition: transform ease-in-out .3s;
-  width: 100%;
+  text-decoration: none;             // Sin subrayado
+  border-radius: 1rem;               // Bordes redondeados
+  box-shadow: .1rem .1rem .3rem $slate; // Sombra ligera
+  transition: transform ease-in-out .3s; // Animación suave al hover
+  width: 100%;                       
 
-  .card__icon{
+  // Icono dentro de la card
+  .card__icon {
     font-size: 2rem;
-    color: $red;
+    color: $red;                     // Icono rojo
   }
 
-  .card__info{
-    h1{
-      color: $red;
+  // Información de la card (texto)
+  .card__info {
+    h1 {
+      color: $red;                   // Título rojo
     }
-    p{
-      color: $blue;
-      font-family: $subtitle;
+    p {
+      color: $blue;                  // Texto azul
+      font-family: $subtitle;        // Fuente secundaria
       font-weight: bold;
     }
   }
 
-  &:hover{
-    transform: scale(1.03);
+  // Animación al pasar el cursor
+  &:hover {
+    transform: scale(1.03);          // Se agranda ligeramente
   }
 }
 
-@include tablet{
-  .card__option{
-    width: auto;
+// Ajustes para tablets
+@include tablet {
+  .card__option {
+    width: auto;                      // Las cards no ocupan todo el ancho
   }
 }

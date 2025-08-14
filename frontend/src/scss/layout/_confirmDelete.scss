@@ -1,35 +1,37 @@
 @use '../global/variables' as *;
 @use '../global/mixins' as *;
 
+// Overlay que cubre toda la pantalla al mostrar la confirmación
 .confirmation__overlay {
-    position: fixed;
+    position: fixed;                     // Fija el overlay en toda la pantalla
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.5);  // Fondo semitransparente
     display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    justify-content: center;             // Centra horizontalmente
+    align-items: center;                 // Centra verticalmente
+    z-index: 1000;                       // Se asegura que esté sobre otros elementos
 }
 
+// Contenedor del contenido de la confirmación
 .confirmation__content {
-    background-color: $white; 
-    border-radius: 1rem;
+    background-color: $white;            // Fondo blanco
+    border-radius: 1rem;                 // Bordes redondeados
     padding: 2rem;
     width: 90%;
-    max-width: 60rem;
-    height: 25%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    max-width: 60rem;                    // Ancho máximo
+    height: 25%;                          // Altura relativa
+    box-shadow: 0 0 10px rgba(0,0,0,0.25); // Sombra para destacar
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
+    justify-content: space-between;      // Espacio entre elementos
 
     h2 {
-        font-family: $principal;  
+        font-family: $principal;
         color: $blue;
-        font-size: 2rem;  
+        font-size: 2rem;
     }
 
     p {
@@ -40,43 +42,46 @@
     }
 }
 
+// Contenedor de los botones de confirmación
 .confirmation__buttons {
     display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 2rem; 
+    justify-content: flex-end;           // Botones a la derecha
+    gap: 1rem;                            // Espacio entre botones
+    margin-top: 2rem;                     // Separación del contenido
 
-    button{
+    button {
         padding: 0.75rem 1.5rem;
         border-radius: 0.5rem;
         border: none;
         cursor: pointer;
         font-weight: bold;
         color: $white;
-        &:first-child{
-            background-color: $blue;
+
+        &:first-child {
+            background-color: $blue;     // Botón de cancelar en azul
         }
     }
-    .confirmation__delete{
-        background-color: $red;
+
+    .confirmation__delete {
+        background-color: $red;           // Botón de eliminar en rojo
     }
 }
 
-
-
+// Ajustes para pantallas pequeñas (móviles)
 @include phone {  
     .confirmation__buttons {
-        flex-direction: column;
+        flex-direction: column;           // Botones apilados verticalmente
         width: 100%;
         button {
-            width: 100%;
+            width: 100%;                  // Botones ocupan todo el ancho
         }
     }
 }
 
+// Ajustes para tablet y superior
 @include tablet { 
     .confirmation__buttons {
-        flex-direction: row;
-        justify-content: flex-end;
+        flex-direction: row;              // Botones en fila
+        justify-content: flex-end;        // A la derecha
     }
 }
