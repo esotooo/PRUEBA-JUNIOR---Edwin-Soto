@@ -32,6 +32,12 @@ CREATE TABLE suppliers_type(
     supplier_type VARCHAR(100) NOT NULL
 );
 
+/* TIPOS DE PROVEEDORES */
+INSERT INTO suppliers_type (supplier_type) VALUES ('Insumos');
+INSERT INTO suppliers_type (supplier_type) VALUES ('Transportes');
+INSERT INTO suppliers_type (supplier_type) VALUES ('Maquinaria');
+INSERT INTO suppliers_type (supplier_type) VALUES ('Otros');
+
 /* YA QUE LA CONTRASEÑA SE ENCUENTRA HASHEADA, 
 ES NECESARIO CREAR EL USUARIO CON EL SIGUIENTE QUERY */
 INSERT INTO users(email, pass) VALUES ('admin@kratt.com','$2b$05$XBhkBcU9/5IBo33pW79WPuwGUsIUQD3o2yH4CrOC3fDaD1a/KsbU6'); 
