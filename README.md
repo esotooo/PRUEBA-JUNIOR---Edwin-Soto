@@ -18,13 +18,32 @@ Funcionalidades principales:
 
 ```text
 project-root/
-├─ backend/          # Servidor Node.js + TypeScript
-├─ frontend/         # Aplicación React + Vite
-├─ db/               # Scripts de base de datos
-├─ README.md         # Este README general
-└─ .gitignore
-```
+├─ backend/                 # Servidor Node.js + TypeScript
+│   ├─ db/                  # Scripts de base de datos (creación de tablas, inserts iniciales)
+│   ├─ helpers/             # Funciones auxiliares (ej: hash de contraseñas, validaciones)
+│   ├─ middlewares/         # Middlewares de Express (ej: autenticación JWT, manejo de errores)
+│   ├─ queries/             # Consultas SQL organizadas por entidades
+│   ├─ types/               # Definiciones de tipos TypeScript para el backend
+│   └─ index.ts             # Punto de entrada del servidor
+│
+├─ frontend/                # Aplicación React + Vite
+│   ├─ public/              # Archivos públicos estáticos (imagenes, iconos)
+│   ├─ src/                 # Código fuente de la aplicación
+│   │   ├─ components/      # Componentes reutilizables de UI
+│   │   ├─ context/         # Contextos de React para manejo global de estado
+│   │   ├─ features/        # Funcionalidades específicas organizadas por dominio
+│   │   ├─ helpers/         # Funciones auxiliares (ej: formateo, validaciones)
+│   │   ├─ hooks/           # Hooks personalizados de React
+│   │   ├─ pages/           # Vistas completas o páginas de la aplicación
+│   │   ├─ reducers/        # Reducers para manejo de estado global con useReducer
+│   │   ├─ scss/            # Archivos de estilos SCSS
+│   │   └─ types/           # Definiciones de tipos TypeScript para el frontend
+│
+├─ README.md                # README general del proyecto
+└─ .gitignore               # Archivos y carpetas ignoradas por Git
 
+```
+ 
 ---
 
 ## Stack utilizado
