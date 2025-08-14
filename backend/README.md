@@ -30,7 +30,6 @@ Crear un archivo `.env` con la siguiente información:
     JWT_SECRET=una_clave_secreta
 ```
 
-> Nota:  
 > - Los datos deben coincidir con tus credenciales de base de datos.
 > - Para JWT_SECRET, coloca la clave que desees usar.
 
