@@ -3,47 +3,49 @@ import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt';
 import { RowDataPacket } from "mysql2/promise";
 import { Router } from 'express'
+import { handleServerError } from '../helpers/serverError'
+import { LoginQueries } from './queriesSQL';
+import { User } from '../types/types';
 
-const router = Router()
 
-//API para iniciar sesion en la aplicacion
+const router = Router();
+
+
+
 router.post('/login', async (req, res) => {
     try{
-        const {email, password} = req.body 
+        const { email, password } = req.body;
 
-        //Busca el usuario por email y contraseña
-        const query = 'SELECT id_user, email, pass FROM users WHERE email = ? '
-        const [rows] = await pool.query<RowDataPacket[]>(query, [email])
+        if(!email || !password){
+            return res.status(400).json({ success: false, message: 'Email and password are required' });
+        }
+
+        const [rows] = await pool.query<User[]>(LoginQueries.login, [email]);
         if(rows.length === 0){
-            return res.status(401).json({ message: 'Invalid email or password' });
+            return res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
 
-        const user = rows[0]
-
-        //Comparar contraseña hasheada 
-        const isMatch = await bcrypt.compare(password, user.pass)
+        const user = rows[0];
+        const isMatch = await bcrypt.compare(password, user.pass);
         if(!isMatch){
-            return res.status(401).json({ message: 'Invalid email or password' });
+            return res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
 
-        //Generar token JWT valido por 1 hora
         const token = jwt.sign(
-            {id: user.id_user, email: user.email},
-            process.env.JWT_SECRET,
-            {expiresIn: '10m'}
-        )
+            { id: user.id_user, email: user.email, role: user.id_rol },
+            process.env.JWT_SECRET || 'defaultsecret',
+            { expiresIn: '1h' }
+        );
 
         return res.status(200).json({
-            message: 'Logged In Successfully',
+            success: true,
+            message: 'Logged in successfully',
             token
-        })
+        });
 
     }catch(error){
-        console.error(error)
-        console.log('Something went wrong, please try again.')
+        handleServerError(res, error);
     }
-})
+});
 
-
-
-export default router
+export default router;

@@ -52,7 +52,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
             const res = await axios.post('http://localhost:4000/api/add-supplier', newSupplierData,
                 {headers: {Authorization: `Bearer ${admin?.token}` }}
             )
-            dispatch({type: 'add-supplier', payload: {supplier: res.data}})
+            dispatch({type: 'add-supplier', payload: {supplier: res.data.data}})
             //Volver a llamar a la API suppliers luego de agregar un nuevo proveedor
             fetchSuppliers()
         }catch(error){
@@ -77,6 +77,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
         try{
             await axios.delete(`http://localhost:4000/api/delete-supplier/${id}`, authHeader)
             dispatch({ type: 'remove-supplier', payload: { id } })
+            dispatch({type: 'close-confirmation', payload: { id }})
 
             // Volver a llamar a la API suppliers luego de eliminar un regsitro
             fetchSuppliers()
@@ -88,51 +89,51 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para filtrar proveedores segun el nombre que ingrese el usuario
     const searchByName = async (name: string) => {
         try {
-          const res = await axios.get(`http://localhost:4000/api/suppliers/search-by-name?company_name=${name}`, authHeader)
-          if(res.data.length === 0){
-            dispatch({type: 'no-results', payload: {message: `OOOOPS! :(  \n No se encontraron registros con el nombre ${name}`}})
-          }else{
-            dispatch({ type: 'set-suppliers', payload: { suppliers: res.data } })
-            dispatch({type: 'no-results', payload: {message: ''}})
+            const res = await axios.get(`http://localhost:4000/api/suppliers/search-by-name?company_name=${name}`, authHeader)
+          if(res.data.success && res.data.data.length > 0){
+            dispatch({ type: 'set-suppliers', payload: { suppliers: res.data.data } })
+            dispatch({ type: 'no-results', payload: { message: '' } })
+          } else {
+            dispatch({ type: 'set-suppliers', payload: { suppliers: [] } })
+            dispatch({ type: 'no-results', payload: { message: res.data.message || `No se encontraron registros con el nombre ${name}` } })
           }
-        } catch (error : any) {
-            if(error.response?.status === 404){
-                dispatch({ type: 'set-suppliers', payload: { suppliers: [] } })
-                dispatch({type: 'no-results', payload: {message: `OOOOPS! :(  \n No se encontraron registros con el nombre ${name}`}})
-            }
+        } catch (error: any) {
+            console.error(error)
         }
     }
     
     //API para filtrar proveedores segun el nombre que ingrese el usuario
     const searchByType = async (idType: number) => {
         try {
-          const res = await axios.get(`http://localhost:4000/api/suppliers/search-by-type?id_type=${idType}`, authHeader)
-          if(res.data.length === 0){
+             const res = await axios.get(`http://localhost:4000/api/suppliers/search-by-type?id_type=${idType}`, authHeader)
+          if(res.data.success && res.data.data.length > 0){
+            dispatch({ type: 'set-suppliers', payload: { suppliers: res.data.data } })
+            dispatch({ type: 'no-results', payload: { message: '' } })
+          } else {
             const typeName = state.supplierType.find(t => t.id_type === idType)?.supplier_type || ''
-            dispatch({type: 'no-results', payload: {message: `OOOOPS! :(  \n No se encontraron registros con el tipo ${typeName}`}})
-          }else{
-            dispatch({ type: 'set-suppliers', payload: { suppliers: res.data } })
-            dispatch({type: 'no-results', payload: {message: ''}})
+            dispatch({ type: 'set-suppliers', payload: { suppliers: [] } })
+            dispatch({ type: 'no-results', payload: { message: res.data.message || `No se encontraron registros con el tipo ${typeName}` } })
           }
         } catch (error: any) {
-            if(error.response?.status === 404){
-                const typeName = state.supplierType.find(t => t.id_type === idType)?.supplier_type || ''
-                dispatch({ type: 'set-suppliers', payload: { suppliers: [] } })
-                dispatch({type: 'no-results', payload: {message: `OOOOPS! :(  \n No se encontraron registros con el tipo ${typeName}`}})
-            }
+            console.error(error)
         }
     }
       
-      const fetchTypes = async () => {
+    //API para visualizar todos los tipos de proveedores
+    const fetchTypes = async () => {
         try {
-          const res = await axios.post('http://localhost:4000/api/supplier-type', {}, authHeader)
-          dispatch({type: 'set-types', payload: {supplierType: res.data}})
+            const res = await axios.get('http://localhost:4000/api/supplier-type', authHeader)
+          if(res.data.success){
+            dispatch({ type: 'set-types', payload: { supplierType: res.data.data } })
+          } else {
+            dispatch({ type: 'set-types', payload: { supplierType: [] } })
+          }
         } catch (error) {
           console.error(error)
         }
-      }
-      
-
+    }
+    
+    //Renderizar los proveedores y tipos de proveedores
     useEffect(() => {
         if (admin?.token){
             fetchTypes()

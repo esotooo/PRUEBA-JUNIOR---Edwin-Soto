@@ -2,38 +2,25 @@ import pool from '../db/connection'
 import {  ResultSetHeader, RowDataPacket } from "mysql2/promise"
 import { Router } from 'express'
 import verifyToken from '../middlewares/verifyToken'
+import { SupplierQueries } from './queriesSQL'
+import { handleServerError } from '../helpers/serverError'
+import { Supplier } from '../types/types'
 
 const router = Router()
 
-//API's PROVEEDORES
 
+//API's PROVEEDORES
 //Visualizacion de proveedores con datos especificos para visualizacion general
 router.get('/suppliers', verifyToken, async (req, res) => {
     try {
-      const query = `
-        SELECT 
-          s.id_supplier, 
-          s.company_name, 
-          s.contact_person, 
-          s.email, 
-          s.phone, 
-          s.NIT, 
-          s.city,
-          s.id_type, 
-          s.created_at,     
-          t.supplier_type   
-        FROM suppliers s
-        INNER JOIN suppliers_type t ON s.id_type = t.id_type;
-      `
-      const [suppliers] = await pool.query<RowDataPacket[]>(query)
+      const [suppliers] = await pool.query<Supplier[]>(SupplierQueries.view)
       if (suppliers.length > 0) {
         res.status(200).json({ success: true, data: suppliers })
       } else {
         res.status(200).json({ success: false, data: [], message: 'No suppliers found.' })
       }
     } catch (error) {
-      console.error(error)
-      res.status(500).json({ success: false, message: 'Internal server error' })
+        handleServerError(res, error)
     }
   })
   
@@ -43,9 +30,8 @@ router.post('/add-supplier', verifyToken, async(req, res) => {
     try{
         const {company_name, contact_person, email,  id_type, NIT, phone, city, created_at} = req.body
 
-        const query = 'INSERT INTO suppliers(company_name, contact_person, email, id_type, NIT, phone, city, created_at) '+
-        'VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-        const [supplier] = await pool.query<ResultSetHeader>(query, [
+
+        const [supplier] = await pool.query<ResultSetHeader>(SupplierQueries.add, [
             company_name, contact_person, email, id_type, NIT, phone, city, created_at
         ])
 
@@ -61,13 +47,12 @@ router.post('/add-supplier', verifyToken, async(req, res) => {
                 city: city,
                 created_at: created_at
             }
-            res.status(200).json(newSupplier)
+            res.status(200).json({success: true, data: newSupplier})
         }else{
-            res.status(401).json({message: 'No records were found.'})
+            res.status(200).json({success: false, data: [], message: 'Supplier was not added.'})
         }
     }catch(error){
-        console.error(error)
-        res.status(500).json({ message: 'Server error' })
+        handleServerError(res, error)
     }
 })
 
@@ -77,11 +62,7 @@ router.put('/edit-supplier/:id', verifyToken, async (req, res) => {
         const{id} = req.params
         const {company_name, contact_person, email, id_type, NIT, phone, city} = req.body
 
-        const query = 'UPDATE suppliers '+
-        'SET company_name = ?, contact_person = ?, email = ?, id_type = ?, NIT = ?, phone = ?, city = ? '+
-        'WHERE id_supplier = ?'
-
-        const [supplier] = await pool.query<ResultSetHeader>(query, [
+        const [supplier] = await pool.query<ResultSetHeader>(SupplierQueries.update, [
             company_name, 
             contact_person, 
             email, 
@@ -93,13 +74,12 @@ router.put('/edit-supplier/:id', verifyToken, async (req, res) => {
         ])
 
         if(supplier.affectedRows > 0){
-            res.status(200).json({message: 'Supplier updated successfully'})
+            res.status(200).json({success: true, message: 'Supplier updated successfully'})
         }else{
-            res.status(404).json({message: 'Supplier not found'})
+            res.status(200).json({success: false, message: 'Supplier not found'})
         }
     }catch(error){
-        console.error(error)
-        res.status(500).json({message: 'Server error'})
+        handleServerError(res, error)
     }
 })
 
@@ -108,18 +88,15 @@ router.delete('/delete-supplier/:id', verifyToken, async(req, res) => {
     try{
         const {id} = req.params
 
-        const query = 'DELETE FROM suppliers WHERE id_supplier = ?'
-
-        const [supplier] = await pool.query<ResultSetHeader>(query, [id])
+        const [supplier] = await pool.query<ResultSetHeader>(SupplierQueries.delete, [id])
 
         if(supplier.affectedRows > 0){
-            res.status(200).json({ message: 'Supplier deleted successfully' })
+            res.status(200).json({success: true, message: 'Supplier deleted successfully' })
         }else{
-            res.status(404).json({ message: 'Supplier not found' })
+            res.status(200).json({success: false, message: 'Supplier not found' })
         }
     }catch(error){
-        console.error(error)
-        res.status(500).json({ message: 'Server error' })
+        handleServerError(res, error)
     }
 })
 
@@ -129,26 +106,18 @@ router.get('/suppliers/search-by-name', verifyToken, async(req, res) => {
         const {company_name} = req.query
 
         if(!company_name){
-            return res.status(400).json({ message: 'Company name is required' })
+            return res.status(400).json({success: false, data: [], message: 'Company name is required' })
         }
 
-        const query = `
-        SELECT s.*, t.supplier_type 
-        FROM suppliers s
-        INNER JOIN suppliers_type t ON s.id_type = t.id_type
-        WHERE s.company_name LIKE ?
-        `
-
-        const [results] = await pool.query<RowDataPacket[]>(query, [`%${company_name}%`])
+        const [results] = await pool.query<Supplier[]>(SupplierQueries.searchByName, [`%${company_name}%`])
 
         if(results.length > 0){
-            res.status(200).json(results)
+            res.status(200).json({success: true, data: results})
         }else{
-            res.status(404).json({ message: 'No records found.' })
+            res.status(200).json({success: false, data: [], message: 'No records found.' })
         }
     }catch(error){
-        console.error(error)
-        res.status(500).json({ message: 'Server error' })
+        handleServerError(res, error)
     }
 })
 
@@ -158,27 +127,19 @@ router.get('/suppliers/search-by-type', verifyToken, async (req, res) => {
         const {id_type} = req.query
 
         if(!id_type){
-            return res.status(400).json({ message: 'Supplier type id is required' })
+            return res.status(400).json({success: true, data: [], message: 'Supplier type is required' })
         }
 
-        const query = `
-        SELECT s.*, t.supplier_type 
-        FROM suppliers s
-        INNER JOIN suppliers_type t ON s.id_type = t.id_type
-        WHERE s.id_type = ?
-        `
-
-        const [results] = await pool.query<RowDataPacket[]>(query, [id_type])
+        const [results] = await pool.query<Supplier[]>(SupplierQueries.searchByType, [id_type])
 
         if(results.length > 0){
-            res.status(200).json(results)
+            res.status(200).json({success: true, data: results})
         }else{
-            res.status(404).json({ message: 'No records found.' })
+            res.status(200).json({ success: false, data: [], message: 'No records found.' })
         }
 
     }catch(error){
-        console.error(error)
-        res.status(500).json({ message: 'Server error' })
+        handleServerError(res, error)
     }
 })
 

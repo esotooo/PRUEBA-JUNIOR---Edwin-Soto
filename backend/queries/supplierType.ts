@@ -2,26 +2,25 @@ import pool from '../db/connection'
 import { RowDataPacket } from "mysql2/promise"
 import { Router } from 'express'
 import verifyToken from '../middlewares/verifyToken'
+import { handleServerError } from '../helpers/serverError'
+import { TypeQueries } from './queriesSQL'
+import { SupplierType } from '../types/types'
 
-const router = Router()
+const router = Router();
 
-//API's TIPOS DE PROVEEDORES
+// Visualización de los tipos de proveedores
+router.get('/supplier-type', verifyToken, async (req, res) => {
+    try {
+        const [types] = await pool.query<SupplierType[]>(TypeQueries.viewType);
 
-//Visualización de los tipos de proveedores
-router.post('/supplier-type', verifyToken, async(req, res) => {
-    try{
-        const query = 'SELECT id_type, supplier_type FROM suppliers_type'
-        const [type] = await pool.query<RowDataPacket[]>(query)
-        if(type.length > 0){
-            res.status(200).json(type)
-        }else{
-            res.status(404).json({message: 'No records were found.'})
+        if (types.length > 0) {
+            res.status(200).json({ success: true, data: types });
+        } else {
+            res.status(200).json({ success: false, data: [], message: 'No records found.' });
         }
-    }catch(error){
-        console.error(error)
-        res.status(500).json({ message: 'Server error' })
+    } catch (error) {
+        handleServerError(res, error);
     }
-})
+});
 
-
-export default router
+export default router;

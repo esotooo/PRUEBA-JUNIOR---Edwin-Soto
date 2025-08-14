@@ -40,38 +40,41 @@ var connection_1 = require("../db/connection");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcrypt");
 var express_1 = require("express");
+var serverError_1 = require("../helpers/serverError");
+var queriesSQL_1 = require("./queriesSQL");
 var router = (0, express_1.Router)();
-//API para iniciar sesion en la aplicacion
 router.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, query, rows, user, isMatch, token, error_1;
+    var _a, email, password, rows, user, isMatch, token, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 3, , 4]);
                 _a = req.body, email = _a.email, password = _a.password;
-                query = 'SELECT id_user, email, pass FROM users WHERE email = ? ';
-                return [4 /*yield*/, connection_1.default.query(query, [email])];
+                if (!email || !password) {
+                    return [2 /*return*/, res.status(400).json({ success: false, message: 'Email and password are required' })];
+                }
+                return [4 /*yield*/, connection_1.default.query(queriesSQL_1.LoginQueries.login, [email])];
             case 1:
                 rows = (_b.sent())[0];
                 if (rows.length === 0) {
-                    return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
+                    return [2 /*return*/, res.status(401).json({ success: false, message: 'Invalid email or password' })];
                 }
                 user = rows[0];
                 return [4 /*yield*/, bcrypt.compare(password, user.pass)];
             case 2:
                 isMatch = _b.sent();
                 if (!isMatch) {
-                    return [2 /*return*/, res.status(401).json({ message: 'Invalid email or password' })];
+                    return [2 /*return*/, res.status(401).json({ success: false, message: 'Invalid email or password' })];
                 }
-                token = jwt.sign({ id: user.id_user, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10m' });
+                token = jwt.sign({ id: user.id_user, email: user.email, role: user.id_rol }, process.env.JWT_SECRET || 'defaultsecret', { expiresIn: '1h' });
                 return [2 /*return*/, res.status(200).json({
-                        message: 'Logged In Successfully',
+                        success: true,
+                        message: 'Logged in successfully',
                         token: token
                     })];
             case 3:
                 error_1 = _b.sent();
-                console.error(error_1);
-                console.log('Something went wrong, please try again.');
+                (0, serverError_1.handleServerError)(res, error_1);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
