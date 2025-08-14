@@ -69,9 +69,9 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 
 ## Base de Datos
 
-- Ejecutar el script SQL que se encuentra en  `db/script.sql` para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
+- Ejecutar el script SQL que se encuentra en  [db/script.sql](db/script.sql) para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
 - El usuario administrador ya tiene la contraseña hasheada.
-- Existe un helper en `helpers/hashPassword.ts` para hashear nuevas contraseñas, únicamente reemplazá la contraseña que se desea hashear.
+- Existe un helper en [helpers/hashPassword.ts](helpers/hashPassword.ts) para hashear nuevas contraseñas, únicamente reemplazá la contraseña que se desea hashear.
 
 ---
 
