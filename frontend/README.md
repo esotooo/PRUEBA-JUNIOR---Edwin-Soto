@@ -1,10 +1,6 @@
-# Backend - PRUEBA TÉCNICA
+# Frontend - PRUEBA TÉCNICA
 
-## Instalación de dependencias
-```
-  cd backend
-  npm install
-```
-
-
+## Requisitos previos
+- Node.js v18+
+- npm v9+
 

@@ -9,7 +9,7 @@
 
 ## Instalación de dependencias
 
-Acceder a la carpeta backend e instalar las dependencias:
+Acceder a la carpeta `backend` e instalar las dependencias:
 
 ```bash
   cd backend
