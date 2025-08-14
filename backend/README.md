@@ -30,8 +30,9 @@ Crear un archivo `.env` con la siguiente información:
     JWT_SECRET=una_clave_secreta
 ```
 
-> Nota: Los datos deben coincidir con tus credenciales de base de datos.
-Para JWT_SECRET, coloca la clave que desees usar.
+> Nota:  
+- Los datos deben coincidir con tus credenciales de base de datos.
+- Para JWT_SECRET, coloca la clave que desees usar.
 
 ---
 
@@ -62,22 +63,22 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 
 ## Scripts útiles
 
-- ` npm run build ` -> Compila TS a JS en la carpeta dist.
-- ` npm start ` -> Iniciar el servidor desde dist.
+- `npm run build` -> Compila TS a JS en la carpeta dist.
+- `npm start` -> Iniciar el servidor desde dist.
 
 ---
 
 ## Base de Datos
 
-- Ejecutar el script SQL que se encuentra en  `/db/script.sql` para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
+- Ejecutar el script SQL que se encuentra en  `db/script.sql` para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
 - El usuario administrador ya tiene la contraseña hasheada.
-- Existe un helper en `/helpers/hashPassword.ts` para hashear nuevas contraseñas, unicamente se reemplaza la contraseña que se desea hashear.
+- Existe un helper en `helpers/hashPassword.ts` para hashear nuevas contraseñas, únicamente reemplazá la contraseña que se desea hashear.
 
 ---
 
 ## Notas adicionales
 
-- Todas las rutas de proveedores (```/api/suppliers```, ```/api/add-supplier```, etc.) requiren un **token JWT válido** para poder ejecutarse.
+- Todas las rutas de proveedores (```/api/suppliers```, ```/api/add-supplier```, etc.) requieren un **token JWT válido** para poder ejecutarse.
 
 
 
