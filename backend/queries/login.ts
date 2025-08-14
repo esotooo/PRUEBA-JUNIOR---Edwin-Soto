@@ -38,7 +38,7 @@ router.post('/login', async (req, res) => {
         // Se usa una clave secreta desde .env, si no, usamos 'defaultsecret'
         // El token expira en 1 hora
         const token = jwt.sign(
-            { id: user.id_user, email: user.email, role: user.id_rol },
+            { id: user.id_user, email: user.email },
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1h' } //Nota: el token expira en 1 hora. El frontend debe validar expiración y redirigir si es necesario.
         )
