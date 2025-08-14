@@ -2,17 +2,19 @@ import {LeadingActions, SwipeableList, SwipeAction, SwipeableListItem, TrailingA
 import 'react-swipeable-list/dist/styles.css'
 import { useSupplier } from '../hooks/useSupplier'
 import type { suppliers } from '../types/types'
-import { MdEditSquare } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import 'react-swipeable-list/dist/styles.css';
+import { MdEditSquare } from "react-icons/md"
+import { MdDelete } from "react-icons/md"
+import 'react-swipeable-list/dist/styles.css'
 
 type SupplierDetailedProps = {
     supplier: suppliers
 }
 
 export default function SuppliersList({supplier} : SupplierDetailedProps) {
-    const { dispatch} = useSupplier()
-
+    
+    const { dispatch } = useSupplier()
+    
+    //Acción al deslizar a la derecha
     const leadingActions = () => (
         <LeadingActions >
             <SwipeAction onClick={() => dispatch({type: 'edit-supplier', payload: {id: supplier.id_supplier}})}>
@@ -23,6 +25,7 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
         </LeadingActions>
     )
 
+    //Acción al deslizar a la izquierda
     const trailingActions = () => (
         <TrailingActions >
             <SwipeAction onClick={() => dispatch({type: 'show-confirmation', payload: {id: supplier.id_supplier}})}
@@ -34,6 +37,14 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
         </TrailingActions>
     )
 
+    //Funcion para formatear 'fecha dd-MM-YYYY'
+    function formatDate(){
+        const date = supplier.created_at.split('T')[0] || supplier.created_at.split('')[0]
+        const  [year, month, day] = date.split('-')
+        return `${day}-${month}-${year}`
+    } 
+
+
   return (
     <SwipeableList>
         <SwipeableListItem
@@ -42,13 +53,16 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
             trailingActions={trailingActions()}    
         >
         <div className='supplier__card' key={supplier.id_supplier}>
+
             <div className='supplier__name'>
                 <h3>{supplier.company_name}</h3>
+                {/** OPCIONES UNICAMENTE DISPONIBLES EN TABLET Y ESCRITORIO */}
                 <div className='supplier__options'>
                     <MdEditSquare className='option__edit' onClick={() => dispatch({type: 'edit-supplier', payload: {id: supplier.id_supplier}})}/>
                     <MdDelete className='option__delete' onClick={() => dispatch({type: 'show-confirmation', payload: {id: supplier.id_supplier}})}/>
                 </div>
             </div>
+            
             <div className='supplier__info'>
                 <h4>{supplier.supplier_type}</h4>
                 <div className='supplier__general'></div>
@@ -57,8 +71,9 @@ export default function SuppliersList({supplier} : SupplierDetailedProps) {
                 <p>Teléfono: <span>{supplier.phone}</span></p>
                 <p>NIT: <span>{supplier.NIT}</span></p>
                 <p>Dirección: <span>{supplier.city}</span></p>
-                <p>Creado el: <span>{supplier.created_at}</span></p>
+                <p>Creado el: <span>{formatDate()}</span></p>
             </div>
+
         </div>
         </SwipeableListItem>
     </SwipeableList>

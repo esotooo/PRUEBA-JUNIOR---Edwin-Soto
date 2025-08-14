@@ -42,7 +42,7 @@ var verifyToken_1 = require("../middlewares/verifyToken");
 var router = (0, express_1.Router)();
 //API's PROVEEDORES
 //Visualizacion de proveedores con datos especificos para visualizacion general
-router.post('/suppliers', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/suppliers', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var query, suppliers, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -53,16 +53,16 @@ router.post('/suppliers', verifyToken_1.default, function (req, res) { return __
             case 1:
                 suppliers = (_a.sent())[0];
                 if (suppliers.length > 0) {
-                    res.status(200).json(suppliers);
+                    res.status(200).json({ success: true, data: suppliers });
                 }
                 else {
-                    res.status(404).json({ message: 'No records were found.' });
+                    res.status(404).json({ success: false, message: 'No suppliers found.' });
                 }
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
                 console.error(error_1);
-                res.status(500).json({ message: 'Server error' });
+                res.status(500).json({ success: false, message: 'Internal server error' });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

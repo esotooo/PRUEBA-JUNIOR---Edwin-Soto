@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useSupplier } from "../hooks/useSupplier"
 import type { SupplierDB, supplierType } from "../types/types"
+import { fieldValidation } from "../helpers/fieldValidation"
 
 type SuppliersFormProps = {
   onClose: () => void
@@ -16,7 +17,8 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
     // Obtener el proveedor que se va a editar
     const supplierToEdit = state.suppliers.find(s => s.id_supplier === state.editingId)
 
-    const [formData, setFormData] = useState<Omit<SupplierDB, 'id_supplier' | 'created_at'>>({
+    //Creamos el estado y omitimos campos que no se llenaran en el formulario
+    const [formData, setFormData] = useState<Omit<SupplierDB, 'id_supplier' | 'created_at'>>({ 
         company_name: '',
         contact_person: '',
         email: '',
@@ -55,6 +57,7 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
         }
     }, [onClose])
 
+
     // Manejar cambios en inputs y select
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = e.target
@@ -62,20 +65,23 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
           ...prev,
           [name]: name === 'id_type' ? Number(value) : value
         }))
-      }
+    }
 
-        async function handleSubmit(e: React.FormEvent) {
+    //Insertar datos a la base de datos al darle click al boton en el formulario
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
-        if (formData.id_type === 0) {
-            alert("Selecciona un tipo de proveedor")
+
+        //Validar si todos los campos estan llenos, si no detiene la ejecucion
+        if(!fieldValidation()){
             return
         }
 
         try {
-            if(isEditing && state.editingId && supplierToEdit){
+            //Actualizar un proveedor
+            if(isEditing && state.editingId && supplierToEdit){ //Validar si existe un ID
                 await updateSupplier(state.editingId, {
-                    ...formData,
-                    created_at: supplierToEdit.created_at 
+                    ...formData, //Trae los datos que estan en el estado
+                    created_at: supplierToEdit.created_at //Mantiene la fecha de creación
                 })
             }else{
                 //Agregar nuevo proveedor
@@ -98,17 +104,19 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                 dispatch({type: 'close-form'})
             }
         } catch (error) {
-        console.error(error)
+            console.error(error)
         }
-        }
-
+    }
 
     return (
         <div className="form-overlay">
         <div ref={formRef} className="form-modal">
             <h2>{isEditing ? 'Editar Proveedor' : 'Agregar Proveedor'}</h2>
+
+            {/** FORMULARIO PROVEEDORES */}
             <form onSubmit={handleSubmit}>
-            
+
+                {/** CAMPO NOMBRE COMPAÑIA */}
                 <div className="form__content">
                     <label htmlFor="company_name">Nombre de la compañía</label>
                     <input 
@@ -117,10 +125,11 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         name="company_name"
                         value={formData.company_name}
                         onChange={handleChange}
-                        required
                     />
+                    <div className="error" id="error-company_name"></div>
                 </div>
 
+                {/** CAMPO PERSONA DE CONTACTO */}
                 <div className="form__content">
                     <label htmlFor="contact_person">Persona de Contacto</label>
                     <input 
@@ -128,11 +137,12 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         id="contact_person"
                         name="contact_person"
                         value={formData.contact_person}
-                        onChange={handleChange}
-                        required
+                        onChange={handleChange}  
                     />
+                    <div className="error" id="error-contact_person"></div>
                 </div>
                 
+                {/** CAMPO CORREO ELECTRONICO */}
                 <div className="form__content">
                     <label htmlFor="email">Correo Electrónico</label>
                     <input 
@@ -141,20 +151,23 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        required
                     />
+                    <div className="error" id="error-email"></div>
                 </div>
 
+                {/** CAMPO TIPO DE PROVEEDOR */}
                 <div className="form__content">
                     <label htmlFor="id_type">Tipo de Proveedor</label>
-                    <select name="id_type" id="id_type" value={formData.id_type} onChange={handleChange} required>
+                    <select name="id_type" id="id_type" value={formData.id_type} onChange={handleChange} >
                         <option value={0}>--- Seleccione una opción ---</option>
                         {state.supplierType.map((type: supplierType) => (
                             <option key={type.id_type} value={type.id_type ?? ''}>{type.supplier_type}</option>
                         ))}
                     </select>
+                    <div className="error" id="error-id_type"></div>
                 </div>
                 
+                {/** CAMPO NIT */}
                 <div className="form__content">
                     <label htmlFor="NIT">NIT</label>
                     <input 
@@ -163,10 +176,11 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         name="NIT"
                         value={formData.NIT}
                         onChange={handleChange}
-                        required
                     />
+                    <div className="error" id="error-NIT"></div>
                 </div>
 
+                {/** CAMPO NÚMERO DE TELÉFONO */}
                 <div className="form__content">
                     <label htmlFor="phone">Teléfono</label>
                     <input 
@@ -175,10 +189,11 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        required
                     />
+                    <div className="error" id="error-phone"></div>
                 </div>
 
+                {/** CAMPO CIUDAD */}
                 <div className="form__content">
                     <label htmlFor="city">Ciudad</label>
                     <input 
@@ -187,13 +202,15 @@ export default function SuppliersForm({ onClose }: SuppliersFormProps) {
                         name="city"
                         value={formData.city}
                         onChange={handleChange}
-                        required
                     />
+                    <div className="error" id="error-city"></div>
                 </div>
-                    <button type="submit" className="button button__register">{isEditing ? 'Actualizar' : 'Agregar'}</button>
-                <div>
 
+                {/** BOTON GUARDAR / ACTUALIZAR */}
+                <div>
+                    <button type="submit" className="button button__register">{isEditing ? 'Actualizar' : 'Agregar'}</button>
                 </div>
+
             </form>
         </div>
         </div>

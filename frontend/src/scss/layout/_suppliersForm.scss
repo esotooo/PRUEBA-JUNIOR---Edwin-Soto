@@ -22,29 +22,37 @@
     padding: 2rem;
     width: 90%;
     max-width: 60rem;
-    height: 72%;
+    height: 80%;
     box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
         
-    h2{
+    h2 {
         font-family: $principal;  
         color: $blue;
         font-size: 2rem;  
         margin-bottom: 1.5rem;
     }
+    form{
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
 }
 
-//Contenido del formulario
-.form__content{
+// Contenido del formulario
+.form__content {
     display: flex;
     flex-direction: column;
-    margin-top: .7rem;
+    flex: 1; 
 
-    label{
+    label {
         font-family: $subtitle;
         font-weight: bold;
         font-size: 1rem;
     }
-    input, select{
+    
+    input, select {
         border: none;
         background-color: $slate;
         padding: .6rem;
@@ -53,9 +61,10 @@
     }
 }
 
-.button__register{
+// Botón de registro
+.button__register {
     border: none;
     font-family: $principal;
-    margin-top: 1.5rem;
+    margin-top: auto; 
     width: 100%;
 }

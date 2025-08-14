@@ -33,9 +33,14 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     //API para ver los datos de proveedores
     const fetchSuppliers = async () => {
         try{
-            const res = await axios.post('http://localhost:4000/api/suppliers', {}, authHeader)
-            dispatch({type: 'set-suppliers', payload: {suppliers: res.data}})
-            dispatch({ type: 'no-results', payload: { message: '' } })
+            const res = await axios.get('http://localhost:4000/api/suppliers', authHeader)
+            if(res.data.success){
+                dispatch({type: 'set-suppliers', payload: {suppliers: res.data.data}})
+                dispatch({ type: 'no-results', payload: { message: '' } })
+            }else{
+                dispatch({ type: 'set-suppliers', payload: { suppliers: [] } })
+                dispatch({ type: 'no-results', payload: { message: res.data.message } })
+            }
         }catch(error){
             console.error(error)
         }
@@ -72,6 +77,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
         try{
             await axios.delete(`http://localhost:4000/api/delete-supplier/${id}`, authHeader)
             dispatch({ type: 'remove-supplier', payload: { id } })
+
             // Volver a llamar a la API suppliers luego de eliminar un regsitro
             fetchSuppliers()
         }catch(error){

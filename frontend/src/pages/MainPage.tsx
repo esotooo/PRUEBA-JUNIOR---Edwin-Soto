@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { FaTruckLoading } from "react-icons/fa";
+import { FaTruckLoading } from "react-icons/fa"
 import MainHeader from "../components/MainHeader"
 import { useAuth } from "../hooks/useAuth"
 import { useEffect } from "react"
@@ -10,7 +10,6 @@ export default function MainPage() {
     const { admin } = useAuth()
 
     const navigate = useNavigate()
-
 
     useEffect(() => {
         if (!admin) {

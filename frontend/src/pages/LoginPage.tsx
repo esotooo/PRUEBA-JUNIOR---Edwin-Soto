@@ -40,7 +40,6 @@ export default function LoginPage() {
                 setAdmin({ token })
                 navigate('/main', { replace: true })
             }
-            console.log(res.data)
         } catch {
             setAdvice('El correo y/o contraseña son incorrectos. Por favor intente de nuevo.')
         }

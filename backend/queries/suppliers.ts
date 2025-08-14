@@ -8,35 +8,35 @@ const router = Router()
 //API's PROVEEDORES
 
 //Visualizacion de proveedores con datos especificos para visualizacion general
-router.post('/suppliers', verifyToken,  async(req, res) => {
-    try{
-        const query = `
-            SELECT 
-            s.id_supplier, 
-            s.company_name, 
-            s.contact_person, 
-            s.email, 
-            s.phone, 
-            s.NIT, 
-            s.city,
-            s.id_type, 
-            s.created_at,     
-            t.supplier_type   
-            FROM suppliers s
-            INNER JOIN suppliers_type t ON s.id_type = t.id_type;
-        `
-        const [suppliers] = await pool.query<RowDataPacket[]>(query)
-        if(suppliers.length > 0){
-            res.status(200).json(suppliers)
-        }else{
-            res.status(404).json({message: 'No records were found.'})
-        }
+router.get('/suppliers', verifyToken, async (req, res) => {
+    try {
+      const query = `
+        SELECT 
+          s.id_supplier, 
+          s.company_name, 
+          s.contact_person, 
+          s.email, 
+          s.phone, 
+          s.NIT, 
+          s.city,
+          s.id_type, 
+          s.created_at,     
+          t.supplier_type   
+        FROM suppliers s
+        INNER JOIN suppliers_type t ON s.id_type = t.id_type;
+      `
+      const [suppliers] = await pool.query<RowDataPacket[]>(query)
+      if (suppliers.length > 0) {
+        res.status(200).json({ success: true, data: suppliers })
+      } else {
+        res.status(200).json({ success: false, data: [], message: 'No suppliers found.' })
+      }
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ success: false, message: 'Internal server error' })
     }
-    catch(error){
-        console.error(error)
-        res.status(500).json({ message: 'Server error' })
-    }
-})
+  })
+  
 
 //Agregar proveedores a la base de datos
 router.post('/add-supplier', verifyToken, async(req, res) => {
