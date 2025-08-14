@@ -2,7 +2,7 @@
 CREATE DATABASE pruebaKratt;
 
 /* SELECCIONAMOS LA BASE DE DATOS */
-USE DATABASE pruebaKratt;
+USE pruebaKratt;
 
 /* TABLA USUARIOS */
 CREATE TABLE users(
