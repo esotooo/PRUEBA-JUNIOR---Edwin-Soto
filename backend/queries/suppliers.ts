@@ -10,7 +10,12 @@ const router = Router()
 
 
 //API's PROVEEDORES
-//Visualizacion de proveedores con datos especificos para visualizacion general
+
+/** 
+ * Obtener todos los proveedores
+ * Protegido con JWT
+ * Devuelve un listado de proveedores o un mensaje si no hay registros
+ */
 router.get('/suppliers', verifyToken, async (req, res) => {
     try {
       const [suppliers] = await pool.query<Supplier[]>(SupplierQueries.view)
@@ -25,7 +30,11 @@ router.get('/suppliers', verifyToken, async (req, res) => {
   })
   
 
-//Agregar proveedores a la base de datos
+/** 
+ * Agregar un nuevo proveedor
+ * Requiere datos en el body
+ * Devuelve el proveedor agregado con su ID generado
+ */
 router.post('/add-supplier', verifyToken, async(req, res) => {
     try{
         const {company_name, contact_person, email,  id_type, NIT, phone, city, created_at} = req.body
@@ -56,7 +65,10 @@ router.post('/add-supplier', verifyToken, async(req, res) => {
     }
 })
 
-//Actualizar proveedor tomando su ID
+/** 
+ * Actualizar un proveedor existente por ID
+ * Requiere datos en el body y parámetro :id
+ */
 router.put('/edit-supplier/:id', verifyToken, async (req, res) => {
     try{
         const{id} = req.params
@@ -83,7 +95,9 @@ router.put('/edit-supplier/:id', verifyToken, async (req, res) => {
     }
 })
 
-//Eliminar proveedor tomando su id
+/** 
+ * Eliminar un proveedor por ID
+ */
 router.delete('/delete-supplier/:id', verifyToken, async(req, res) => {
     try{
         const {id} = req.params
@@ -100,7 +114,10 @@ router.delete('/delete-supplier/:id', verifyToken, async(req, res) => {
     }
 })
 
-//Filtrar proveedores por nombre
+/** 
+ * Filtrar proveedores por nombre
+ * Requiere query ?company_name=...
+ */
 router.get('/suppliers/search-by-name', verifyToken, async(req, res) => {
     try{
         const {company_name} = req.query
@@ -121,7 +138,10 @@ router.get('/suppliers/search-by-name', verifyToken, async(req, res) => {
     }
 })
 
-//Filtrar proveedores por tipo
+/** 
+ * Filtrar proveedores por tipo
+ * Requiere query ?id_type=...
+ */
 router.get('/suppliers/search-by-type', verifyToken, async (req, res) => {
     try{
         const {id_type} = req.query

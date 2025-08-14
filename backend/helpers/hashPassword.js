@@ -36,9 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var connection_1 = require("../db/connection"); // asegúrate de importar pool también
+var connection_1 = require("../db/connection");
 var bcrypt = require("bcrypt");
-// Funcion para hashear la contraseña en la DB
+// Función que recibe un correo y una contraseña en texto plano
+// La encripta y actualiza el usuario correspondiente en la base de datos
 function hashPassword(email, plainPassword) {
     return __awaiter(this, void 0, void 0, function () {
         var saltRounds, hashedPassword, query, error_1;
@@ -46,27 +47,30 @@ function hashPassword(email, plainPassword) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    saltRounds = 5;
-                    return [4 /*yield*/, bcrypt.hash(plainPassword, saltRounds)];
+                    saltRounds = 5 // Número de rondas de hash para bcrypt
+                    ;
+                    return [4 /*yield*/, bcrypt.hash(plainPassword, saltRounds)]; // Generar hash seguro
                 case 1:
-                    hashedPassword = _a.sent();
+                    hashedPassword = _a.sent() // Generar hash seguro
+                    ;
                     query = 'UPDATE users SET pass = ? WHERE email = ?';
-                    return [4 /*yield*/, connection_1.default.query(query, [hashedPassword, email])];
+                    return [4 /*yield*/, connection_1.default.query(query, [hashedPassword, email])]; // Actualiza la contraseña en la DB
                 case 2:
-                    _a.sent();
+                    _a.sent(); // Actualiza la contraseña en la DB
                     console.log("Password for ".concat(email, " updated successfully."));
-                    process.exit(0);
+                    process.exit(0); // Salida exitosa del script
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
-                    console.error('Error updating password:', error_1);
-                    process.exit(1);
+                    process.exit(1); // Salida con error en caso de fallo
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
         });
     });
 }
+// Datos del usuario a actualizar
 var emailToUpdate = 'admin@kratt.com';
 var newPlainPassword = 'admin2025';
+// Ejecuta la función
 hashPassword(emailToUpdate, newPlainPassword);

@@ -42,7 +42,8 @@ var verifyToken_1 = require("../middlewares/verifyToken");
 var serverError_1 = require("../helpers/serverError");
 var queriesSQL_1 = require("./queriesSQL");
 var router = (0, express_1.Router)();
-// Visualización de los tipos de proveedores
+// Ruta para obtener todos los tipos de proveedores
+// Protegida mediante JWT (verifyToken)
 router.get('/supplier-type', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var types, error_1;
     return __generator(this, function (_a) {
@@ -52,6 +53,7 @@ router.get('/supplier-type', verifyToken_1.default, function (req, res) { return
                 return [4 /*yield*/, connection_1.default.query(queriesSQL_1.TypeQueries.viewType)];
             case 1:
                 types = (_a.sent())[0];
+                // Devolver resultados si existen, o mensaje de no registros
                 if (types.length > 0) {
                     res.status(200).json({ success: true, data: types });
                 }
@@ -61,6 +63,7 @@ router.get('/supplier-type', verifyToken_1.default, function (req, res) { return
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
+                // Manejo centralizado de errores de servidor (helpers/serverError)
                 (0, serverError_1.handleServerError)(res, error_1);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

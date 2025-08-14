@@ -1,4 +1,4 @@
-//Consulta para ver los proveedores
+// Consulta para obtener todos los proveedores con su tipo
 const viewSuppliers = `
   SELECT 
     s.id_supplier, 
@@ -15,12 +15,12 @@ const viewSuppliers = `
   INNER JOIN suppliers_type t ON s.id_type = t.id_type; 
 `
 
-//Consulta para agregar un proveedor
+// Insertar un nuevo proveedor
 const addSupplier = `
    INSERT INTO suppliers(company_name, contact_person, email, id_type, NIT, phone, city, created_at)
    VALUES (?, ?, ?, ?, ?, ?, ?, ?); `
 
-//Consulta para actualizar los datos de un proveedor
+// Actualizar datos de un proveedor existente por ID
 const updateSupplier = `
   UPDATE suppliers
   SET 
@@ -34,10 +34,10 @@ const updateSupplier = `
   WHERE id_supplier = ?
 `
 
-//Consulta para eliminar un proveedor
+// Eliminar un proveedor por ID
 const deleteSupplier = `DELETE FROM suppliers WHERE id_supplier = ?`
 
-//Consulta para buscar por nombre
+// Buscar proveedores por nombre parcial
 const searchByName = `
     SELECT s.*, t.supplier_type 
     FROM suppliers s
@@ -45,7 +45,7 @@ const searchByName = `
     WHERE s.company_name LIKE ?
     `
 
-//Consulta para buscar por tipo de proveedor
+// Filtrar proveedores por tipo
 const searchByType = `
     SELECT s.*, t.supplier_type 
     FROM suppliers s
@@ -53,12 +53,10 @@ const searchByType = `
     WHERE s.id_type = ?
     `
 
-
-//Consulta para visualizar todos los tipos de proveedores
+// Obtener todos los tipos de proveedores
 const supplierType = 'SELECT id_type, supplier_type FROM suppliers_type'
   
-
-//Consulta login 
+// Consulta de login por correo electrónico
 const login = 'SELECT id_user, email, pass FROM users WHERE email = ? '
 
 export const SupplierQueries = {

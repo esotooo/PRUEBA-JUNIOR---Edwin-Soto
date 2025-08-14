@@ -43,7 +43,11 @@ var queriesSQL_1 = require("./queriesSQL");
 var serverError_1 = require("../helpers/serverError");
 var router = (0, express_1.Router)();
 //API's PROVEEDORES
-//Visualizacion de proveedores con datos especificos para visualizacion general
+/**
+ * Obtener todos los proveedores
+ * Protegido con JWT
+ * Devuelve un listado de proveedores o un mensaje si no hay registros
+ */
 router.get('/suppliers', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var suppliers, error_1;
     return __generator(this, function (_a) {
@@ -68,7 +72,11 @@ router.get('/suppliers', verifyToken_1.default, function (req, res) { return __a
         }
     });
 }); });
-//Agregar proveedores a la base de datos
+/**
+ * Agregar un nuevo proveedor
+ * Requiere datos en el body
+ * Devuelve el proveedor agregado con su ID generado
+ */
 router.post('/add-supplier', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, company_name, contact_person, email, id_type, NIT, phone, city, created_at, supplier, newSupplier, error_2;
     return __generator(this, function (_b) {
@@ -107,7 +115,10 @@ router.post('/add-supplier', verifyToken_1.default, function (req, res) { return
         }
     });
 }); });
-//Actualizar proveedor tomando su ID
+/**
+ * Actualizar un proveedor existente por ID
+ * Requiere datos en el body y parámetro :id
+ */
 router.put('/edit-supplier/:id', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, _a, company_name, contact_person, email, id_type, NIT, phone, city, supplier, error_3;
     return __generator(this, function (_b) {
@@ -143,7 +154,9 @@ router.put('/edit-supplier/:id', verifyToken_1.default, function (req, res) { re
         }
     });
 }); });
-//Eliminar proveedor tomando su id
+/**
+ * Eliminar un proveedor por ID
+ */
 router.delete('/delete-supplier/:id', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, supplier, error_4;
     return __generator(this, function (_a) {
@@ -169,7 +182,10 @@ router.delete('/delete-supplier/:id', verifyToken_1.default, function (req, res)
         }
     });
 }); });
-//Filtrar proveedores por nombre
+/**
+ * Filtrar proveedores por nombre
+ * Requiere query ?company_name=...
+ */
 router.get('/suppliers/search-by-name', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var company_name, results, error_5;
     return __generator(this, function (_a) {
@@ -198,7 +214,10 @@ router.get('/suppliers/search-by-name', verifyToken_1.default, function (req, re
         }
     });
 }); });
-//Filtrar proveedores por tipo
+/**
+ * Filtrar proveedores por tipo
+ * Requiere query ?id_type=...
+ */
 router.get('/suppliers/search-by-type', verifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id_type, results, error_6;
     return __generator(this, function (_a) {
