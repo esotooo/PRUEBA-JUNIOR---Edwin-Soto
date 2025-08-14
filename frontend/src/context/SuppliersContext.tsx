@@ -35,6 +35,7 @@ export const SupplierProvider = ({children} : SupplierProviderProps) => {
     // Antes solíamos hacer validaciones de token dentro de cada llamada a API (fetchSuppliers, addSupplier, etc.)
     // Ahora solo usamos el token para los headers Authorization. Cualquier expiración o invalidez
     // será manejada globalmente en AuthContext, lo que evita duplicar lógica en múltiples lugares.
+    
     const handleAuthError = (error: any) => {
         const message = error.response?.data?.message || 'Error en el servidor'
         dispatch({ type: 'set-message', payload: { type: 'error', text: message } })

@@ -14,6 +14,17 @@ Funcionalidades principales:
 
 ---
 
+## Clonar Repositorio
+
+Para obtener una copia del proyecto en tu máquina, ejecuta los siguientes comandos en la terminal:
+```bash
+git clone https://github.com/esotooo/PRUEBA-JUNIOR---Edwin-Soto.git
+cd PRUEBA-JUNIOR---Edwin-Soto   
+```
+Luego puedes seguir los pasos de instalación para backend y frontend como se indica más abajo.
+
+---
+
 ## Estructura del proyecto
 
 ```text
