@@ -19,7 +19,7 @@ Acceder a la carpeta `frontend` e instalar las dependencias:
 
 ## Variables de entorno
 
-Si el frontend necesita comunicarse con el backend, crea un archivo `.env` en la raíz de esta carpeta con la URL de la API:
+Si el frontend necesita comunicarse con el backend, crea un archivo `.env` en la raíz de esta carpeta con la URL del servidor backend:
 
 ```ini
 VITE_URL_API=http://localhost:4000
