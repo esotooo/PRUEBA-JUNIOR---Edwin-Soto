@@ -75,6 +75,7 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 
 ## Notas adicionales
 
--- Todas las rutas de proveedores (```/api/suppliers```, ```/api/add-supplier```, etc.) requiren un **token JWT válido** para poder ejecutarse.
+- Todas las rutas de proveedores (```/api/suppliers```, ```/api/add-supplier```, etc.) requiren un **token JWT válido** para poder ejecutarse.
+
 
 
