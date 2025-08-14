@@ -140,7 +140,7 @@ Body (JSON):
 ```
 
 3. Agregar Proveedor
-**POST /api/add-suppliers**
+**POST /api/add-supplier**
 
 **Body (JSON):**
 
@@ -175,5 +175,5 @@ Body (JSON):
 
 ### Notas adicionales
 
-- Todas las rutas de proveedores (```/api/suppliers```, ```/api/add-supplier```, etc.) requieren un **token JWT válido** para poder ejecutarse.
+- Todas las rutas de proveedores (`/api/suppliers`, `/api/add-supplier`, etc.) requieren un **token JWT válido** para poder ejecutarse.
 - Asegúrate que la base de datos esté creada y el backend en ejecución antes de probar la API.
