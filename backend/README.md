@@ -9,7 +9,7 @@
 
 ## Instalación de dependencias
 
-Acceder a la carpeta backend e instalamos las dependencias.
+Acceder a la carpeta backend e instalar las dependencias.
 
 ```bash
   cd backend
@@ -20,7 +20,7 @@ Acceder a la carpeta backend e instalamos las dependencias.
 
 ## Variables de entorno
 
-Crear un archivo ```.env``` con la siguiente informacion.
+Crear un archivo ```.env``` con la siguiente información.
 
 ```ini
     DB_HOST=localhost  
@@ -67,7 +67,7 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 
 ## Base de Datos
 
-- Ejecutar el script SQL que se encuentra en  ```/db/script.sql``` para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
+- Ejecutar el script SQL que se encuentra en  `db/script.sql` para crear la base de datos, tabla de usuarios, proveedores y tipo de proveedor.
 - El usuario administrador ya tiene la contraseña hasheada.
 - Existe un helper en ```/helpers/hashPassword.ts``` para hashear nuevas contraseñas, unicamente se reemplaza la contraseña que se desea hashear.
 
@@ -76,6 +76,7 @@ Una vez generados los archivos JS, ejecutamos el siguiente comando para iniciar 
 ## Notas adicionales
 
 - Todas las rutas de proveedores (```/api/suppliers```, ```/api/add-supplier```, etc.) requiren un **token JWT válido** para poder ejecutarse.
+
 
 
 
